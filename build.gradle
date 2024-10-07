@@ -17,6 +17,12 @@ buildscript {
 		classpath 'com.bmuschko:gradle-docker-plugin:6.7.0'
 		classpath 'com.vanniktech:gradle-maven-publish-plugin:0.15.1'
 	}
+
+	configurations.all {
+		resolutionStrategy {
+			force 'org.ysb33r.gradle:grolifant:0.12.1'
+		}
+	}
 }
 
 plugins {
@@ -51,7 +57,7 @@ if (ext.timestampedVersion) {
 	def gitCommitTimestamp = grgit.head().date.format("yyyyMMddHHmmss", TimeZone.getTimeZone('GMT'))
 	version = BUILD_VERSION_PREFIX + "." + gitCommitTimestamp
 } else {
-	version = '10.0.0-SNAPSHOT'
+	version = '4.0.0'
 }
 group = GROUP_ID
 
@@ -176,73 +182,70 @@ gradle.beforeProject { Project project ->
 				archiveClassifier = 'javadoc'
  			}
 
+			apply plugin: "com.vanniktech.maven.publish.base"
 
- 			plugins.withId("com.vanniktech.maven.publish.base") {
- 				group = GROUP_ID
+			// Add maven publishing configuration explicitly
+			publishing {
+				publications {
+					mavenJava(MavenPublication) {
+						from components.java
 
- 				mavenPublishing {
-// 					publishToMavenCentral("DEFAULT")
-//
-// 					// Will only apply to non snapshot builds.
-// 					// Uses credentials as described above, supports both regular and in memory signing.
-// 					signAllPublications()
-//
- 					pom {
- 						name = "Crnk"
- 						description = "A description of what my library does."
- 						inceptionYear = "2020"
- 						url = "https ://github.com/crnk-project/crnk-framework/"
- 						licenses {
- 							license {
- 								name = "The Apache License, Version 2.0"
- 								url = "http://www.apache.org/licenses/LICENSE-2.0.txt"
- 								distribution = "http://www.apache.org/licenses/LICENSE-2.0.txt"
- 							}
- 						}
- 						developers {
- 							developer {
- 								id = "crnk"
- 								name = "crnk"
- 								url = "https://github.com/crnk-project/"
- 							}
- 						}
- 						scm {
- 							url = "https://github.com/crnk-project/crnk-framework"
- 							connection = "scm:git:git://github.com/crnk-project/crnk-framework.git"
- 							developerConnection = "scm:git:ssh://git@github.com/crnk-project/crnk-framework.git"
- 						}
- 					}
- 				}
- 			}
+						// Include the sources and Javadoc jars
+						artifact sourcesJar
+						artifact javadocJar
 
- 			apply plugin: "com.vanniktech.maven.publish.base"
+						groupId = GROUP_ID
+						artifactId = project.name
+						version = project.version
 
- 			mavenPublishing {
- 				// available options:
- 				//   - JavaLibrary
- 				//   - GradlePlugin
- 				//   - AndroidLibrary
- 				//   - KotlinJvm
- 				//   - KotlinJs
- 				//   - KotlinMultiplatform
- 				// the first parameter configures the javadoc jar, available options:
- 				//   - None
- 				//   - Empty
- 				//   - Javadoc
- 				//   - Dokka("dokkaHtml") - the parameter is the name of the Dokka task
- 				// second one is for whether to publish sources, optional, defaults to true (not supported for KotlinMultiplatform(
- 				// AndroidLibrary has a third parameter for which variant to publish, defaults to "release"
- 				configure(new JavaLibrary(new JavadocJar.Javadoc(), true))
- 			}
-//
-//
-// 			def releaseBuild = project.hasProperty('stable')
-//
-//
- 		}
+						pom {
+							name.set("Crnk")
+							description.set("A description of what my library does.")
+							inceptionYear.set("2020")
+							url.set("https://github.com/crnk-project/crnk-framework/")
+							licenses {
+								license {
+									name.set("The Apache License, Version 2.0")
+									url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+									distribution.set("repo")
+								}
+							}
+							developers {
+								developer {
+									id.set("crnk")
+									name.set("crnk")
+									url.set("https://github.com/crnk-project/")
+								}
+							}
+							scm {
+								url.set("https://github.com/crnk-project/crnk-framework")
+								connection.set("scm:git:git://github.com/crnk-project/crnk-framework.git")
+								developerConnection.set("scm:git:ssh://git@github.com/crnk-project/crnk-framework.git")
+							}
+						}
+					}
+				}
+				repositories {
+					maven {
+						name = 'local'
+						url = uri("${System.getProperty('user.home')}/.m2/repository")
+					}
+					maven {
+						name = 'nexus'
+						url = uri("http://nexus.dev.booklan.de/repository/releases/")
+						credentials {
+							username = System.getenv("NEXUS_USERNAME")
+							password = System.getenv("NEXUS_PASSWORD")
+						}
+						allowInsecureProtocol = true
+					}
+				}
+			}
+		}
+
 //
 // 	}
- }
+	}
 //
 // // coveralls setup
 // apply plugin: "jacoco"
