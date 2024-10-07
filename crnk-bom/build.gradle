@@ -1,5 +1,7 @@
 description = "Crnk extensions BOM"
 
+apply plugin: 'com.vanniktech.maven.publish.base'
+
 def bomGenerator = {
 	def node = asNode()
 	def dependencyMgmtNode = node.appendNode('dependencyManagement')
@@ -16,10 +18,9 @@ def bomGenerator = {
 	}
 }
 
-publishing {
-	publications {
-		maven(MavenPublication) {
-			pom.withXml bomGenerator
-		}
+mavenPublishing {
+	// Customize the POM using your BOM generator
+	pom {
+		withXml(bomGenerator)
 	}
 }
