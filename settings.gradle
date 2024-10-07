@@ -37,7 +37,7 @@ include ':crnk-gen:crnk-gen-typescript'
 include ':crnk-gen:crnk-gen-java'
 include ':crnk-gen:crnk-gen-base'
 include ':crnk-gen:crnk-gen-runtime'
-include ':crnk-gen:crnk-gen-gradle'
+//include ':crnk-gen:crnk-gen-gradle'
 include ':crnk-gen:crnk-gen-asciidoc'
 
 include ':crnk-integration-examples:jersey-example'
