@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.engine.document.Resource;
 import io.crnk.core.engine.information.InformationBuilder;
 import io.crnk.core.engine.information.contributor.ResourceFieldContributor;
@@ -278,6 +279,8 @@ public class DefaultRegistryEntryBuilder implements RegistryEntryBuilder {
     private ResourceInformation buildResource() {
         ResourceInformation resourceInformation = resource.build();
         contributeFields(moduleRegistry, resourceInformation);
+		final String allowUnknownAttributes = moduleRegistry.getPropertiesProvider().getProperty(CrnkProperties.ALLOW_UNKNOWN_ATTRIBUTES);
+		resourceInformation.setAllowUnknownAttributes(Boolean.parseBoolean(allowUnknownAttributes));
         return resourceInformation;
     }
 

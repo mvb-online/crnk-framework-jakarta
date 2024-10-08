@@ -99,6 +99,8 @@ public class ResourceInformation extends BeanInformationBase {
 
     private Class<? extends PagingSpec> pagingSpecType;
 
+	private Boolean allowUnknownAttributes;
+
     private ResourceFieldAccess access = new ResourceFieldAccess(true, true, true, true, true, true);
 
     private StringMapper idStringMapper = new StringMapper() {
@@ -302,6 +304,14 @@ public class ResourceInformation extends BeanInformationBase {
     public void setResourcePath(String resourcePath) {
         this.resourcePath = resourcePath;
     }
+
+	public Boolean getAllowUnknownAttributes() {
+		return allowUnknownAttributes;
+	}
+
+	public void setAllowUnknownAttributes(final Boolean allowUnknownAttributes) {
+		this.allowUnknownAttributes = allowUnknownAttributes;
+	}
 
     class NestedIdAccessor implements ResourceFieldAccessor {
 

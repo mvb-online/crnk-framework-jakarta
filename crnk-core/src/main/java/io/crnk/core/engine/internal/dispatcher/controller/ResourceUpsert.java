@@ -187,7 +187,7 @@ public abstract class ResourceUpsert extends ResourceIncludeField {
 						value = filter.modifyAttribute(instance, field, attributeJsonName, value);
 					}
 					anyFieldAccessor.setValue(instance, attributeJsonName, value);
-				} else if(!isClient()) {
+				} else if(!isClient() && !resourceInformation.getAllowUnknownAttributes()) {
 					throw new BadRequestException(String.format("attribute %s not found", attributeJsonName));
 				}
 			} catch (IOException e) {
