@@ -9,12 +9,12 @@ import java.util.Map;
 
 import io.crnk.core.engine.internal.utils.ClassUtils;
 import io.crnk.core.engine.internal.utils.PreconditionUtil;
+import io.crnk.core.engine.internal.utils.TypeResolverUtils;
 import io.crnk.core.repository.BulkResourceRepository;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.repository.decorate.Wrapper;
 import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceListBase;
-import net.jodah.typetools.TypeResolver;
 
 public class ClientStubInvocationHandler implements InvocationHandler {
 
@@ -85,7 +85,7 @@ public class ClientStubInvocationHandler implements InvocationHandler {
 	private Object createTypesafeList(Object result, Class<?> returnType) {
 		DefaultResourceList defaultList = (DefaultResourceList) result;
 
-		Class<?>[] typeArguments = TypeResolver.resolveRawArguments(ResourceListBase.class, returnType);
+		final Class<?>[] typeArguments = TypeResolverUtils.resolveRawArguments(ResourceListBase.class, returnType);
 		Class<?> metaType = typeArguments[1];
 		Class<?> linksType = typeArguments[2];
 

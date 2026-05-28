@@ -6,13 +6,13 @@ import io.crnk.core.engine.information.repository.RepositoryInformationProviderC
 import io.crnk.core.engine.information.repository.RepositoryMethodAccess;
 import io.crnk.core.engine.internal.information.repository.RelationshipRepositoryInformationImpl;
 import io.crnk.core.engine.internal.utils.PreconditionUtil;
+import io.crnk.core.engine.internal.utils.TypeResolverUtils;
 import io.crnk.core.repository.ManyRelationshipRepository;
 import io.crnk.core.repository.MatchedRelationshipRepository;
 import io.crnk.core.repository.OneRelationshipRepository;
 import io.crnk.core.repository.RelationshipMatcher;
 import io.crnk.core.repository.RelationshipRepository;
 import io.crnk.core.repository.UntypedRelationshipRepository;
-import net.jodah.typetools.TypeResolver;
 
 public class DefaultRelationshipRepositoryInformationProvider implements RepositoryInformationProvider {
 
@@ -71,7 +71,7 @@ public class DefaultRelationshipRepositoryInformationProvider implements Reposit
             RelationshipRepository<?, ?, ?, ?> querySpecRepo = (RelationshipRepository<?, ?, ?, ?>) repository;
             return querySpecRepo.getSourceResourceClass();
         } else {
-            Class<?>[] typeArgs = TypeResolver.resolveRawArguments(RelationshipRepository.class, repositoryClass);
+            final Class<?>[] typeArgs = TypeResolverUtils.resolveRawArguments(RelationshipRepository.class, repositoryClass);
             return typeArgs[0];
         }
     }
@@ -81,7 +81,7 @@ public class DefaultRelationshipRepositoryInformationProvider implements Reposit
             RelationshipRepository<?, ?, ?, ?> querySpecRepo = (RelationshipRepository<?, ?, ?, ?>) repository;
             return querySpecRepo.getTargetResourceClass();
         } else {
-            Class<?>[] typeArgs = TypeResolver.resolveRawArguments(RelationshipRepository.class, repositoryClass);
+            Class<?>[] typeArgs = TypeResolverUtils.resolveRawArguments(RelationshipRepository.class, repositoryClass);
             return typeArgs[2];
         }
     }

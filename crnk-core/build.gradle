@@ -4,7 +4,8 @@ plugins {
 }
 
 dependencies {
-    api 'net.jodah:typetools:0.6.3'
+	api 'net.jodah:typetools:0.6.3'
+    api 'io.leangen.geantyref:geantyref:2.0.1'
 	api 'org.slf4j:slf4j-api:2.0.9'
 	api 'org.slf4j:jcl-over-slf4j:2.0.9'
 	api 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.4'

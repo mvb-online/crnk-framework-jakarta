@@ -5,13 +5,13 @@ import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.information.resource.ResourceInformationProvider;
 import io.crnk.core.engine.internal.information.repository.ResourceRepositoryInformationImpl;
 import io.crnk.core.engine.internal.utils.PreconditionUtil;
+import io.crnk.core.engine.internal.utils.TypeResolverUtils;
 import io.crnk.core.repository.ReadOnlyResourceRepositoryBase;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.repository.ResourceRepositoryBase;
 import io.crnk.core.repository.UntypedResourceRepository;
 import io.crnk.core.repository.decorate.Wrapper;
 import io.crnk.core.resource.annotations.JsonApiExposed;
-import net.jodah.typetools.TypeResolver;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -124,7 +124,7 @@ public class DefaultResourceRepositoryInformationProvider implements RepositoryI
 			return resourceClass;
 		}
 		if (ResourceRepository.class.isAssignableFrom(repositoryClass)) {
-			Class<?>[] typeArgs = TypeResolver.resolveRawArguments(ResourceRepository.class, repositoryClass);
+			final Class<?>[] typeArgs = TypeResolverUtils.resolveRawArguments(ResourceRepository.class, repositoryClass);
 			return typeArgs[0];
 		}
 		throw new IllegalStateException("failed to get resource class from " + repositoryClass + ", does it implement ResourceRepository?");

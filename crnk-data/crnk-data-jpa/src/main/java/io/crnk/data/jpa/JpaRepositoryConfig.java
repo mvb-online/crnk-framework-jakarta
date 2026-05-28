@@ -7,6 +7,7 @@ import java.util.function.Supplier;
 
 import io.crnk.core.engine.internal.utils.ClassUtils;
 import io.crnk.core.engine.internal.utils.PreconditionUtil;
+import io.crnk.core.engine.internal.utils.TypeResolverUtils;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.ResourceRepository;
 import io.crnk.core.resource.links.DefaultPagedLinksInformation;
@@ -20,7 +21,6 @@ import io.crnk.core.resource.meta.PagedMetaInformation;
 import io.crnk.data.jpa.mapping.IdentityMapper;
 import io.crnk.data.jpa.mapping.JpaMapper;
 import io.crnk.data.jpa.query.JpaQueryFactory;
-import net.jodah.typetools.TypeResolver;
 
 /**
  * @param <T> document type (entity or mapped dto)
@@ -266,7 +266,7 @@ public class JpaRepositoryConfig<T> {
 				}
 				setListClass((Class<? extends DefaultResourceList<T>>) returnType);
 
-				Class<?>[] typeArgs = TypeResolver.resolveRawArguments(ResourceListBase.class, returnType);
+				final Class<?>[] typeArgs = TypeResolverUtils.resolveRawArguments(ResourceListBase.class, returnType);
 				setListMetaClass((Class<? extends MetaInformation>) typeArgs[1]);
 				setListLinksClass((Class<? extends LinksInformation>) typeArgs[2]);
 				return this;

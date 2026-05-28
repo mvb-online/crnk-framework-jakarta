@@ -1,7 +1,7 @@
 package io.crnk.core.engine.information.bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import net.jodah.typetools.TypeResolver;
+import io.crnk.core.engine.internal.utils.TypeResolverUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
@@ -217,7 +217,7 @@ public class BeanAttributeInformation {
      */
     public Type getType() {
         if (cachedType == null) {
-            cachedType = TypeResolver.reify(getImplementationType(), beanInformation.getImplementationClass());
+            cachedType = TypeResolverUtils.reify(getImplementationType(), beanInformation.getImplementationClass());
         }
         return cachedType;
     }
