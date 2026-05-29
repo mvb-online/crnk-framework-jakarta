@@ -1,7 +1,7 @@
 plugins {
 	id 'java'
 	id 'java-library'
-	id 'org.springframework.boot' version '3.1.12'
+	id 'org.springframework.boot' version "$SPRING_BOOT_VERSION"
 	id 'io.spring.dependency-management'
 }
 
@@ -10,9 +10,9 @@ dependencies {
 	implementation project(':crnk-setup:crnk-setup-servlet')
 	api project(':crnk-client')
 
-	compileOnlyApi 'org.springframework.boot:spring-boot-starter-web:3.1.12'
-	compileOnlyApi 'org.springframework.boot:spring-boot-configuration-processor:3.1.12'
-	compileOnlyApi 'org.springframework.boot:spring-boot-starter-actuator:3.1.12'
+	compileOnlyApi "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
+	compileOnlyApi "org.springframework.boot:spring-boot-configuration-processor:$SPRING_BOOT_VERSION"
+	compileOnlyApi "org.springframework.boot:spring-boot-starter-actuator:$SPRING_BOOT_VERSION"
 	compileOnlyApi 'org.springframework.security:spring-security-core:6.1.9'
 	compileOnlyApi 'org.hibernate:hibernate-core:6.6.0.Final'
 	compileOnlyApi 'org.springframework:spring-orm:6.0.21'
@@ -29,15 +29,15 @@ dependencies {
 	testImplementation  'org.glassfish:jakarta.el:5.0.0-M1'
 	testImplementation  'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:2.15.4'
 
-	testImplementation  'org.springframework.boot:spring-boot-starter-data-jpa:3.1.12'
-	testImplementation  'org.springframework.boot:spring-boot-starter-web:3.1.12'
-	testImplementation  'org.springframework.boot:spring-boot-starter-test:3.1.12'
-	testImplementation  'org.springframework.boot:spring-boot-starter-actuator:3.1.12'
+	testImplementation  "org.springframework.boot:spring-boot-starter-data-jpa:$SPRING_BOOT_VERSION"
+	testImplementation  "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
+	testImplementation  "org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION"
+	testImplementation  "org.springframework.boot:spring-boot-starter-actuator:$SPRING_BOOT_VERSION"
 
 	testImplementation 'org.hibernate:hibernate-core:6.6.0.Final'
 	testImplementation  'com.h2database:h2'
 
-	testImplementation  'org.springframework.boot:spring-boot-configuration-processor:3.1.12'
+	testImplementation  "org.springframework.boot:spring-boot-configuration-processor:$SPRING_BOOT_VERSION"
 	testImplementation  'org.springframework:spring-orm:6.0.21'
 	testImplementation  'org.springframework.security:spring-security-core:6.1.9'
 

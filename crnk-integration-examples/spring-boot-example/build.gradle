@@ -2,7 +2,7 @@ plugins {
 	id 'java'
 	id 'java-library'
 	id 'application'
-	id 'org.springframework.boot' version '3.1.12'
+	id 'org.springframework.boot' version "$SPRING_BOOT_VERSION"
 	id 'io.spring.dependency-management'
 }
 
@@ -31,10 +31,10 @@ dependencies {
     testImplementation  "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
     testImplementation  "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.12'
-    implementation 'org.springframework.boot:spring-boot-starter-web:3.1.12'
-    implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.12'
-    implementation 'org.springframework.boot:spring-boot-starter-validation:3.1.12'
+    implementation "org.springframework.boot:spring-boot-starter-data-jpa:$SPRING_BOOT_VERSION"
+    implementation "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
+    implementation "org.springframework.boot:spring-boot-starter-actuator:$SPRING_BOOT_VERSION"
+    implementation "org.springframework.boot:spring-boot-starter-validation:$SPRING_BOOT_VERSION"
 
     implementation 'org.hibernate:hibernate-core:6.6.0.Final'
     implementation 'com.h2database:h2:2.2.224'
@@ -45,13 +45,13 @@ dependencies {
     testImplementation  'io.rest-assured:rest-assured:5.4.0'
     testImplementation  'io.rest-assured:json-schema-validator:5.4.0'
     testImplementation  'commons-io:commons-io:2.14.0'
-    testImplementation  'org.springframework.boot:spring-boot-starter-test:3.1.12'
+    testImplementation  "org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION"
 }
 
 dependencyManagement {
     dependencies {
         // Prevent Gradle from downgrading Hibernate core dependencies
-        // Older ones are brought by 'org.springframework.boot:spring-boot-starter-data-jpa:3.1.12' (6.2.25 vs 6.4.8)
+        // Older ones are brought by "org.springframework.boot:spring-boot-starter-data-jpa:$SPRING_BOOT_VERSION" (6.2.25 vs 6.4.8)
         dependency 'org.hibernate:hibernate-core:6.6.0.Final'
         dependency 'org.hibernate.orm:hibernate-core:6.6.0.Final'
     }
