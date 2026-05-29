@@ -37,7 +37,7 @@ import com.vanniktech.maven.publish.JavaLibrary
 import com.vanniktech.maven.publish.JavadocJar
 
 wrapper {
-	gradleVersion = '8.3'
+	gradleVersion = '8.14.4'
 }
 
 apply plugin: 'jdk-bootstrap'
