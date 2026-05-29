@@ -11,9 +11,9 @@ import io.crnk.core.engine.parser.TypeParser;
 import io.crnk.servlet.internal.ServletRequestContext;
 import io.micrometer.common.KeyValue;
 import io.micrometer.common.KeyValues;
+import jakarta.annotation.Nonnull;
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpServletRequest;
-import org.jetbrains.annotations.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.server.observation.DefaultServerRequestObservationConvention;
@@ -36,7 +36,7 @@ public class CrnkServerRequestObservationConvention extends DefaultServerRequest
 		LOGGER.debug("initialized observation convention");
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public KeyValues getLowCardinalityKeyValues(ServerRequestObservationContext context) {
 		HttpServletRequest request = context.getCarrier();
@@ -45,7 +45,7 @@ public class CrnkServerRequestObservationConvention extends DefaultServerRequest
 		return enhanceUri(keyValues, request);
 	}
 
-	@NotNull
+	@Nonnull
 	@Override
 	public KeyValues getHighCardinalityKeyValues(ServerRequestObservationContext context) {
 		HttpServletRequest request = context.getCarrier();
