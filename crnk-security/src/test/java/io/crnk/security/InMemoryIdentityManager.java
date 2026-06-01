@@ -1,29 +1,25 @@
 package io.crnk.security;
 
-import org.eclipse.jetty.security.ConstraintMapping;
-import org.eclipse.jetty.security.ConstraintSecurityHandler;
+import org.eclipse.jetty.security.Constraint;
 import org.eclipse.jetty.security.HashLoginService;
 import org.eclipse.jetty.security.SecurityHandler;
 import org.eclipse.jetty.security.UserStore;
 import org.eclipse.jetty.security.authentication.BasicAuthenticator;
-import org.eclipse.jetty.util.security.Constraint;
 import org.eclipse.jetty.util.security.Credential;
 
 /**
- * A simple {@link IdentityManager} implementation, that just takes a map of users to their
- * password.
- * <p>
- * This is in now way suitable for real world production use.
+ * A simple identity manager for tests, using Jetty's in-memory user store
+ * with basic authentication. Not suitable for production use.
  */
 public class InMemoryIdentityManager {
 
-	private ConstraintSecurityHandler securityHandler;
+	private SecurityHandler.PathMapped securityHandler;
 
 	private HashLoginService loginService;
 
 	private UserStore userStore;
 
-	private String realm = "myrealm";
+	private final String realm = "myrealm";
 
 	public InMemoryIdentityManager() {
 		userStore = new UserStore();
@@ -32,30 +28,19 @@ public class InMemoryIdentityManager {
 		loginService.setName(realm);
 		loginService.setUserStore(userStore);
 
-		securityHandler = new ConstraintSecurityHandler();
-		securityHandler.setAuthenticator(new BasicAuthenticator());
+		BasicAuthenticator authenticator = new BasicAuthenticator();
+
+		securityHandler = new SecurityHandler.PathMapped();
+		securityHandler.setAuthenticator(authenticator);
 		securityHandler.setRealmName(realm);
 		securityHandler.setLoginService(loginService);
 
-		Constraint constraint = new Constraint();
-		constraint.setName(Constraint.__BASIC_AUTH);
-		//		constraint.setRoles(new String[] { "getRole", "postRole", "allRole" });
-		constraint.setRoles(new String[]{Constraint.ANY_AUTH, "getRole", "postRole", "allRole"});
-		constraint.setAuthenticate(true);
-
-		ConstraintMapping cm = new ConstraintMapping();
-		cm.setConstraint(constraint);
-		cm.setPathSpec("/*");
-		securityHandler.addConstraintMapping(cm);
+		securityHandler.put("/*", Constraint.ANY_USER);
 	}
 
 	public void addUser(String userId, String password, String... roles) {
 		userStore.addUser(userId, Credential.getCredential(password), roles);
 		loginService.setUserStore(userStore);
-	}
-
-	public void clear() {
-		securityHandler.getConstraintMappings().clear();
 	}
 
 	public SecurityHandler getSecurityHandler() {

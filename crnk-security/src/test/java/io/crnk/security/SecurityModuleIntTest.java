@@ -113,8 +113,6 @@ public class SecurityModuleIntTest extends JerseyTestBase {
 
     @Before
     public void setup() {
-        identityManager.clear();
-
         client = new CrnkClient(getBaseUri().toString());
         client.addModule(SecurityModule.newClientModule());
         client.getHttpAdapter().setReceiveTimeout(1000000, TimeUnit.MILLISECONDS);
