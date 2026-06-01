@@ -1,9 +1,7 @@
 // tag::versions[]
 buildscript {
 	dependencies {
-		apply from: "versions.gradle"
-
-		def depMgmtVersion = versions['dependency.management.plugin.version']
+		def depMgmtVersion = "$DEP_MGMT_PLUGIN_VERSION"
 
 		classpath "io.spring.gradle:dependency-management-plugin:${depMgmtVersion}"
 		classpath 'com.moowork.gradle:gradle-node-plugin:1.1.1'
