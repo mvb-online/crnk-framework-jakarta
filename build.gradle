@@ -117,7 +117,7 @@ gradle.beforeProject { Project project ->
 				apply plugin: 'io.spring.dependency-management'
 				dependencyManagement {
 					imports {
-						mavenBom 'io.projectreactor:reactor-bom:Bismuth-RELEASE'
+						mavenBom 'io.projectreactor:reactor-bom:2024.0.7'
 						mavenBom "org.glassfish.jersey:jersey-bom:$JERSEY_VERSION"
 					}
 					dependencies {

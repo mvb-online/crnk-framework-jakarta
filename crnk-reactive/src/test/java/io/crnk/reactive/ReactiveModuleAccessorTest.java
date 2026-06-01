@@ -13,7 +13,7 @@ public class ReactiveModuleAccessorTest {
 		ReactiveModule module = new ReactiveModule();
 		Assert.assertEquals("reactive", module.getModuleName());
 
-		Assert.assertEquals(Schedulers.elastic(), module.getWorkerScheduler());
+		Assert.assertEquals(Schedulers.boundedElastic(), module.getWorkerScheduler());
 
 		Scheduler scheduler = Mockito.mock(Scheduler.class);
 		module.setWorkerScheduler(scheduler);

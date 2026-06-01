@@ -13,7 +13,7 @@ import reactor.core.scheduler.Schedulers;
 
 public class ReactiveModule implements Module {
 
-	private Scheduler workerScheduler = Schedulers.elastic();
+	private Scheduler workerScheduler = Schedulers.boundedElastic();
 
 
 	@Override

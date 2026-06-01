@@ -60,7 +60,7 @@ of related resources. Since the traditional repositories will block the caller, 
 
 1. A repository can be annotated with `ImmediateRepository`. In this case the traditional repository is marked as being non-blocking and can be safely invoked.
 
-2. `ReactiveModule.setWorkerScheduler(...)` allows to set the scheduler to use to invoke traditional repositories. By default `Schedulers.elastic` is used where
+2. `ReactiveModule.setWorkerScheduler(...)` allows to set the scheduler to use to invoke traditional repositories. By default `Schedulers.boundedElastic` is used where
    worker threads are spanned as necessary.
 
 ## Roadmap and Limitations

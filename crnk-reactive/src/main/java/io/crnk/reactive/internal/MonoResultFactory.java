@@ -27,7 +27,7 @@ public class MonoResultFactory implements ResultFactory {
 	private <T> Result<T> toResult(Mono<T> mono) {
 		Object context = threadLocal.get();
 		if (context != null) {
-			mono.subscriberContext(it -> it.put(SUBSCRIBER_CONTEXT_KEY, context));
+			mono = mono.contextWrite(it -> it.put(SUBSCRIBER_CONTEXT_KEY, context));
 		}
 		return new MonoResult(mono);
 	}
@@ -67,7 +67,7 @@ public class MonoResultFactory implements ResultFactory {
 	@Override
 	public <T> Result<T> attachContext(Result<T> result, Object context) {
 		MonoResult monoResult = (MonoResult) result;
-		return new MonoResult<>(monoResult.getMono().subscriberContext(Context.of(SUBSCRIBER_CONTEXT_KEY, context)));
+		return new MonoResult<>(monoResult.getMono().contextWrite(Context.of(SUBSCRIBER_CONTEXT_KEY, context)));
 	}
 
 	@Override
@@ -80,7 +80,7 @@ public class MonoResultFactory implements ResultFactory {
 
 	@Override
 	public Result<Object> getContext() {
-		return new MonoResult(Mono.subscriberContext().map(it -> it.get(SUBSCRIBER_CONTEXT_KEY)));
+		return new MonoResult(Mono.deferContextual(ctx -> Mono.just(ctx.get(SUBSCRIBER_CONTEXT_KEY))));
 	}
 
 	@Override
