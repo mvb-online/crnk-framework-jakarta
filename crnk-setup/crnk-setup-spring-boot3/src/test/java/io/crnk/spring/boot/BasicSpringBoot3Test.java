@@ -307,7 +307,7 @@ public class BasicSpringBoot3Test {
 			ErrorData errorData = document.getErrors().get(0);
 			Assert.assertEquals("404", errorData.getStatus());
 			Assert.assertEquals("Not Found", errorData.getTitle());
-			Assert.assertEquals("No message available", errorData.getDetail());
+			Assert.assertEquals("No static resource doesNotExist.", errorData.getDetail());
 		}
 	}
 }

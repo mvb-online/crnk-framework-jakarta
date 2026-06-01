@@ -27,25 +27,10 @@ dependencies {
 	testImplementation  group: 'org.springframework', name: 'spring-context', version: '6.0.21'
 	testImplementation  group: 'org.springframework', name: 'spring-test', version: '6.0.21'
 	testImplementation  group: 'com.h2database', name: 'h2', version: '2.2.224'
-	testImplementation  group: 'org.hibernate', name: 'hibernate-core', version: '6.4.8.Final'
+	testImplementation  'org.hibernate.orm:hibernate-core'
 
 	testImplementation  'jakarta.el:jakarta.el-api:5.0.1'
 	testImplementation  'org.glassfish:jakarta.el:5.0.0-M1'
-}
-
-dependencyManagement {
-	dependencies {
-		// Gradle resolves Jersey to 3.1.6 version which uses Jetty 12
-		dependency "org.glassfish.jersey.ext:jersey-proxy-client:$JERSEY_VERSION"
-		dependency "org.glassfish.jersey.core:jersey-client:$JERSEY_VERSION"
-		dependency "org.glassfish.jersey.media:jersey-media-json-jackson:$JERSEY_VERSION"
-		dependency "org.glassfish.jersey.inject:jersey-hk2:$JERSEY_VERSION"
-		dependency "org.glassfish.jersey.core:jersey-common:$JERSEY_VERSION"
-		dependency "org.glassfish.jersey.test-framework.providers:jersey-test-framework-provider-jetty:$JERSEY_VERSION"
-		dependency "org.glassfish.jersey.test-framework:jersey-test-framework-core:$JERSEY_VERSION"
-		dependency "org.glassfish.jersey.containers:jersey-container-jetty-http:$JERSEY_VERSION"
-		dependency "org.glassfish.jersey.core:jersey-server:$JERSEY_VERSION"
-	}
 }
 
 bootJar {

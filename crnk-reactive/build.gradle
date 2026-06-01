@@ -9,7 +9,7 @@ dependencies {
 	api 'io.projectreactor:reactor-core'
 
 	testImplementation  'io.projectreactor:reactor-test'
-	testImplementation  'ch.qos.logback:logback-classic:1.4.14'
+	testImplementation  "ch.qos.logback:logback-classic:$LOGBACK_VERSION"
 	testImplementation  "org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION"
 
 	testImplementation  "org.junit.jupiter:junit-jupiter-api:$JUNIT_VERSION"

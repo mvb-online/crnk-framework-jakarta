@@ -13,9 +13,9 @@ dependencies {
 	compileOnlyApi "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
 	compileOnlyApi "org.springframework.boot:spring-boot-configuration-processor:$SPRING_BOOT_VERSION"
 	compileOnlyApi "org.springframework.boot:spring-boot-starter-actuator:$SPRING_BOOT_VERSION"
-	compileOnlyApi 'org.springframework.security:spring-security-core:6.1.9'
-	compileOnlyApi 'org.hibernate:hibernate-core:6.6.0.Final'
-	compileOnlyApi 'org.springframework:spring-orm:6.0.21'
+	compileOnlyApi 'org.springframework.security:spring-security-core'
+	compileOnlyApi "org.hibernate.orm:hibernate-core:$HIBERNATE_CORE_VERSION"
+	compileOnlyApi 'org.springframework:spring-orm'
 
 	testImplementation  project(':crnk-data:crnk-data-jpa')
 	testImplementation (project(':crnk-home')) {
@@ -34,12 +34,12 @@ dependencies {
 	testImplementation  "org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION"
 	testImplementation  "org.springframework.boot:spring-boot-starter-actuator:$SPRING_BOOT_VERSION"
 
-	testImplementation 'org.hibernate:hibernate-core:6.6.0.Final'
+	testImplementation "org.hibernate.orm:hibernate-core:$HIBERNATE_CORE_VERSION"
 	testImplementation  'com.h2database:h2'
 
 	testImplementation  "org.springframework.boot:spring-boot-configuration-processor:$SPRING_BOOT_VERSION"
-	testImplementation  'org.springframework:spring-orm:6.0.21'
-	testImplementation  'org.springframework.security:spring-security-core:6.1.9'
+	testImplementation  'org.springframework:spring-orm'
+	testImplementation  'org.springframework.security:spring-security-core'
 
 	bootJar {
 		enabled = false

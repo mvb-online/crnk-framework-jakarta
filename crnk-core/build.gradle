@@ -22,7 +22,7 @@ dependencies {
     testImplementation  "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
     testImplementation  "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
-	testImplementation  'ch.qos.logback:logback-classic:1.4.14'
+	testImplementation  "ch.qos.logback:logback-classic:$LOGBACK_VERSION"
     testImplementation  'org.mockito:mockito-core:5.5.0'
     testImplementation  'org.assertj:assertj-core:2.2.0'
     testImplementation  'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.4'
