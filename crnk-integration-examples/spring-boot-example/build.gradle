@@ -36,23 +36,14 @@ dependencies {
     implementation "org.springframework.boot:spring-boot-starter-actuator:$SPRING_BOOT_VERSION"
     implementation "org.springframework.boot:spring-boot-starter-validation:$SPRING_BOOT_VERSION"
 
-    implementation "org.hibernate:hibernate-core:$HIBERNATE_CORE_VERSION"
+    implementation "org.hibernate.orm:hibernate-core:$HIBERNATE_CORE_VERSION"
     implementation 'com.h2database:h2:2.2.224'
     implementation "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
     implementation 'com.google.guava:guava:31.1-jre'
 
     testImplementation  project(':crnk-client')
-    testImplementation  'io.rest-assured:rest-assured:5.4.0'
-    testImplementation  'io.rest-assured:json-schema-validator:5.4.0'
+    testImplementation  "io.rest-assured:rest-assured:$REST_ASSURED_VERSION"
+    testImplementation  "io.rest-assured:json-schema-validator:$REST_ASSURED_VERSION"
     testImplementation  'commons-io:commons-io:2.14.0'
     testImplementation  "org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION"
-}
-
-dependencyManagement {
-    dependencies {
-        // Prevent Gradle from downgrading Hibernate core dependencies
-        // Older ones are brought by "org.springframework.boot:spring-boot-starter-data-jpa:$SPRING_BOOT_VERSION" (6.2.25 vs 6.4.8)
-        //dependency "org.hibernate:hibernate-core:$SPRING_BOOT_VERSION"
-        //dependency "org.hibernate.orm:hibernate-core:$SPRING_BOOT_VERSION"
-    }
 }

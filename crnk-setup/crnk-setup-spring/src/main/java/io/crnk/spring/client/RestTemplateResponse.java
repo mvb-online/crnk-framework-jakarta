@@ -6,6 +6,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -62,7 +63,7 @@ public class RestTemplateResponse implements HttpAdapterResponse {
 
     @Override
     public Set<String> getHeaderNames() {
-        return headers.keySet();
+        return new LinkedHashSet<>(headers.headerNames());
     }
 
 }

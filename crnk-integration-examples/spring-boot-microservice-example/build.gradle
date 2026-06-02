@@ -26,8 +26,8 @@ dependencies {
 	testImplementation  "org.junit.jupiter:junit-jupiter-engine:$JUNIT_VERSION"
 	testImplementation  "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
-	testImplementation  'io.rest-assured:rest-assured:5.4.0'
-	testImplementation  'io.rest-assured:json-schema-validator:5.4.0'
+	testImplementation  "io.rest-assured:rest-assured:$REST_ASSURED_VERSION"
+	testImplementation  "io.rest-assured:json-schema-validator:$REST_ASSURED_VERSION"
 	testImplementation  "org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION"
 	testImplementation  'commons-io:commons-io:2.14.0'
 

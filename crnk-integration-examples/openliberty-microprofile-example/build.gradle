@@ -25,7 +25,7 @@ dependencies {
 	implementation project(':crnk-home')
 	implementation project(':crnk-data:crnk-data-jpa')
 	implementation  'com.h2database:h2:2.2.224'
-	implementation "org.hibernate:hibernate-core:$HIBERNATE_CORE_VERSION"
+	implementation "org.hibernate.orm:hibernate-core:$HIBERNATE_CORE_VERSION"
 }
 
 compileJava.dependsOn ':crnk-setup:crnk-setup-cdi:processResources'

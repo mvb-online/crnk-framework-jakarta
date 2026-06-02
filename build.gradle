@@ -90,6 +90,9 @@ gradle.beforeProject { Project project ->
 
 			if (!bom) {
 				dependencies {
+					implementation "org.springframework.boot:spring-boot-starter-classic:$SPRING_BOOT_VERSION"
+					testImplementation "org.springframework.boot:spring-boot-starter-test-classic:$SPRING_BOOT_VERSION"
+					implementation "org.springframework.boot:spring-boot-jackson2:$SPRING_BOOT_VERSION"
 					testRuntimeOnly "org.junit.platform:junit-platform-launcher:$JUNIT_PLATFORM_VERSION"
 					testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 					testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.5.0'

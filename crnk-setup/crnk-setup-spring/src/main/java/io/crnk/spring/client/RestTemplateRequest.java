@@ -14,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -93,7 +94,7 @@ public class RestTemplateRequest implements HttpAdapterRequest {
 
     @Override
     public Set<String> getHeadersNames() {
-        return headers.keySet();
+        return new LinkedHashSet<>(headers.headerNames());
     }
 
     @Override

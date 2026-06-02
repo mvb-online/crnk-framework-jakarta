@@ -17,7 +17,7 @@ public class SpringMvcHomeModuleExtensionFactory {
 		for (RequestMappingHandlerMapping mapping : mappings) {
 			Map<RequestMappingInfo, HandlerMethod> handlerMethods = mapping.getHandlerMethods();
 			for (RequestMappingInfo info : handlerMethods.keySet()) {
-				Set<String> patterns = info.getPatternsCondition().getPatterns();
+				Set<String> patterns = info.getPathPatternsCondition().getPatternValues();
 				for (String pattern : patterns) {
 					if (pattern.equals("/error") || pattern.contains("*")) {
 						continue;

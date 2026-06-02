@@ -38,7 +38,7 @@ dependencies {
 	compileOnlyApi "org.springframework.boot:spring-boot-starter-actuator:$SPRING_BOOT_VERSION"
 	compileOnlyApi "org.springframework.boot:spring-boot-starter-validation:$SPRING_BOOT_VERSION"
 	compileOnlyApi "org.springframework.security:spring-security-core:$SPRING_SECURITY_VERSION"
-	compileOnlyApi "org.springframework:spring-orm:$SPRING_ORM_VERSION"
+	compileOnlyApi "org.springframework:spring-orm:$SPRING_FRAMEWORK_VERSION"
 
 	testImplementation  project(':crnk-data:crnk-data-jpa')
 	testImplementation  project(':crnk-validation')
@@ -65,7 +65,7 @@ dependencies {
 	testImplementation  'com.h2database:h2'
 
 	testImplementation  "org.springframework.boot:spring-boot-configuration-processor:$SPRING_BOOT_VERSION"
-	testImplementation  "org.springframework:spring-orm:$SPRING_ORM_VERSION"
+	testImplementation  "org.springframework:spring-orm:$SPRING_FRAMEWORK_VERSION"
 	testImplementation  "org.springframework.security:spring-security-core:$SPRING_SECURITY_VERSION"
 	testImplementation  'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
 	testImplementation  'org.mockito:mockito-core:5.5.0'

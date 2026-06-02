@@ -14,7 +14,6 @@ import jakarta.ws.rs.core.Application;
 import io.crnk.client.CrnkClient;
 import io.crnk.client.action.JerseyActionStubFactory;
 import io.crnk.client.http.okhttp.OkHttpAdapter;
-import io.crnk.client.http.okhttp.OkHttpAdapterListenerBase;
 import io.crnk.data.jpa.JpaModule;
 import io.crnk.data.jpa.JpaModuleConfig;
 import io.crnk.data.jpa.JpaRepositoryConfig;
@@ -37,7 +36,6 @@ import io.crnk.spring.jpa.SpringTransactionRunner;
 import io.crnk.test.JerseyTestBase;
 import io.crnk.test.mock.models.Task;
 import io.crnk.validation.ValidationModule;
-import okhttp3.OkHttpClient.Builder;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.junit.After;
 import org.junit.Assert;
@@ -53,14 +51,7 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 	protected OperationsModule operationsModule;
 
 	public static void setNetworkTimeout(CrnkClient client, final int timeout, final TimeUnit timeUnit) {
-		OkHttpAdapter httpAdapter = (OkHttpAdapter) client.getHttpAdapter();
-		httpAdapter.addListener(new OkHttpAdapterListenerBase() {
-
-			@Override
-			public void onBuild(Builder builder) {
-				builder.readTimeout(timeout, timeUnit);
-			}
-		});
+		client.getHttpAdapter().setReceiveTimeout(timeout, timeUnit);
 	}
 
 	public static void clear(EntityManager em) {
@@ -99,6 +90,7 @@ public abstract class AbstractOperationsTest extends JerseyTestBase {
 	public void setup() {
 		clear();
 		client = new CrnkClient(getBaseUri().toString());
+		client.setHttpAdapter(new OkHttpAdapter());
 		client.setActionStubFactory(JerseyActionStubFactory.newInstance());
 		client.getHttpAdapter().setReceiveTimeout(10000000, TimeUnit.MILLISECONDS);
 
