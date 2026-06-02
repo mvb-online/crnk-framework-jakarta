@@ -38,7 +38,7 @@ dependencies {
 
     implementation "org.hibernate:hibernate-core:$HIBERNATE_CORE_VERSION"
     implementation 'com.h2database:h2:2.2.224'
-    implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+    implementation "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
     implementation 'com.google.guava:guava:31.1-jre'
 
     testImplementation  project(':crnk-client')

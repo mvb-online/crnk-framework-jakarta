@@ -10,7 +10,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.springframework.http.client.ClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
@@ -83,10 +83,10 @@ public class RestTemplateAdapter implements HttpAdapter {
                     HttpComponentsClientHttpRequestFactory apacheRequestFactory =
                             (HttpComponentsClientHttpRequestFactory) impl.getRequestFactory();
 //                    apacheRequestFactory.setReadTimeout(networkTimeout.intValue());
-                } else if (requestFactory instanceof OkHttp3ClientHttpRequestFactory) {
-                    OkHttp3ClientHttpRequestFactory okhttpRequestFactory =
-                            (OkHttp3ClientHttpRequestFactory) impl.getRequestFactory();
-                    okhttpRequestFactory.setReadTimeout(networkTimeout.intValue());
+                } else if (requestFactory instanceof JdkClientHttpRequestFactory) {
+                    JdkClientHttpRequestFactory jdkClientRequestFactory =
+                            (JdkClientHttpRequestFactory) impl.getRequestFactory();
+                    jdkClientRequestFactory.setReadTimeout(networkTimeout.intValue());
                 } else {
                     throw new IllegalStateException("unknown type " + requestFactory);
                 }

@@ -31,7 +31,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.client.OkHttp3ClientHttpRequestFactory;
+import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.web.client.RestTemplate;
@@ -87,7 +87,7 @@ public class RestTemplateClientTest {
         listener = Mockito.mock(RestTemplateAdapterListener.class);
         adapter.addListener(listener);
         adapter.addListener(new RestTemplateAdapterListenerBase());
-        adapter.getImplementation().setRequestFactory(new OkHttp3ClientHttpRequestFactory());
+        adapter.getImplementation().setRequestFactory(new JdkClientHttpRequestFactory());
         client.setHttpAdapter(adapter);
 
         taskRepo = client.getRepositoryForType(Task.class);

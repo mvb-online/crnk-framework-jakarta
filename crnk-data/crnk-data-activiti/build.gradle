@@ -14,7 +14,7 @@ dependencies {
 	testImplementation  project(':crnk-setup:crnk-setup-rs')
 	testImplementation  project(':crnk-test')
 	testImplementation  project(':crnk-client')
-	testImplementation  'com.squareup.okhttp3:okhttp:3.4.1'
+	testImplementation  "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
 	testImplementation  'org.apache.httpcomponents:httpclient:4.5.13'
 	testImplementation  'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.4'
 	testImplementation  'jakarta.xml.bind:jakarta.xml.bind-api:4.0.1'

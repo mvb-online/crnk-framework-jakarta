@@ -17,7 +17,7 @@ dependencies {
 	}
 	implementation project(':crnk-testkit')
 	implementation project(':crnk-client')
-	implementation 'com.squareup.okhttp3:okhttp:3.4.1'
+	implementation "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
 
 	implementation "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
 
