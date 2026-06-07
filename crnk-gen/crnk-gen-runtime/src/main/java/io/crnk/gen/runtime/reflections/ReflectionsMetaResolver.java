@@ -13,6 +13,7 @@ import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.information.contributor.ResourceFieldContributor;
 import io.crnk.core.engine.information.resource.ResourceInformationProvider;
 import io.crnk.core.engine.internal.registry.DefaultRegistryEntryBuilder;
+import io.crnk.core.engine.internal.utils.TypeResolverUtils;
 import io.crnk.core.module.SimpleModule;
 import io.crnk.core.module.discovery.EmptyServiceDiscovery;
 import io.crnk.core.repository.InMemoryResourceRepository;
@@ -24,7 +25,6 @@ import io.crnk.meta.MetaLookup;
 import io.crnk.meta.MetaModule;
 import io.crnk.meta.MetaModuleConfig;
 import io.crnk.meta.provider.resource.ResourceMetaProvider;
-import net.jodah.typetools.TypeResolver;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -73,7 +73,7 @@ public class ReflectionsMetaResolver implements RuntimeMetaResolver {
 			Map<Class, Class> resourceRepositoryMap = new HashMap<>();
 			for (Class repositoryClass : repositoryClasses) {
 				if (repositoryClass.isInterface()) {
-					Class<?>[] typeArgs = TypeResolver.resolveRawArguments(ResourceRepository.class, repositoryClass);
+					final Class<?>[] typeArgs = TypeResolverUtils.resolveRawArguments(ResourceRepository.class, repositoryClass);
 					if (typeArgs != null) {
 						Class<?> resourceClass = typeArgs[0];
 						resourceRepositoryMap.put(resourceClass, repositoryClass);

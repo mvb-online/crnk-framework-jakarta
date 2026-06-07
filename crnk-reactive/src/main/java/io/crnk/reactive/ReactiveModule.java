@@ -1,13 +1,13 @@
 package io.crnk.reactive;
 
 import io.crnk.core.module.Module;
+import io.crnk.core.engine.internal.utils.TypeResolverUtils;
 import io.crnk.legacy.repository.information.DefaultRelationshipRepositoryInformationProvider;
 import io.crnk.legacy.repository.information.DefaultResourceRepositoryInformationProvider;
 import io.crnk.reactive.internal.MonoResultFactory;
 import io.crnk.reactive.internal.adapter.ReactiveRepositoryAdapterFactory;
 import io.crnk.reactive.repository.ReactiveRelationshipRepository;
 import io.crnk.reactive.repository.ReactiveResourceRepository;
-import net.jodah.typetools.TypeResolver;
 import reactor.core.scheduler.Scheduler;
 import reactor.core.scheduler.Schedulers;
 
@@ -52,7 +52,7 @@ public class ReactiveModule implements Module {
 				ReactiveResourceRepository querySpecRepo = (ReactiveResourceRepository) repository;
 				return querySpecRepo.getResourceClass();
 			} else {
-				Class<?>[] typeArgs = TypeResolver.resolveRawArguments(ReactiveRelationshipRepository.class, repositoryClass);
+				final Class<?>[] typeArgs = TypeResolverUtils.resolveRawArguments(ReactiveRelationshipRepository.class, repositoryClass);
 				return typeArgs[0];
 			}
 		}
