@@ -9,7 +9,6 @@ import io.crnk.meta.provider.resource.ResourceMetaProvider;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.apache.commons.io.FileUtils;
 import org.junit.Assert;
 import org.junit.Before;
@@ -55,8 +54,8 @@ public class OpenAPIGeneratorSimpleTest extends OpenAPIGeneratorTestBase {
     generatorModule.getConfig().setOutputSorted(true);  // Ensures deterministic output
     generatorModule.initDefaults(buildDir);
     generatorModule.generate(metaModule.getLookup());
-    OpenAPI openApi = new OpenAPIV3Parser().read(outputPath);
-    OpenAPI openApiTemplate = new OpenAPIV3Parser().read(templatePath);
+    OpenAPI openApi = readOpenAPI(outputPath);
+    OpenAPI openApiTemplate = readOpenAPI(templatePath);
 
     // Compare templated metadata and generated metadata
     Assert.assertEquals(openApiTemplate.getOpenapi(), openApi.getOpenapi());

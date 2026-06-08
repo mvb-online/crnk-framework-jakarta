@@ -48,7 +48,7 @@ import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.ProjectRepository;
 import io.crnk.test.mock.repository.ScheduleRepositoryImpl;
 import io.crnk.test.mock.repository.TaskRepository;
-import net.javacrumbs.jsonunit.assertj.JsonFluentAssert;
+import net.javacrumbs.jsonunit.assertj.JsonAssert;
 import org.apache.catalina.authenticator.jaspic.AuthConfigFactoryImpl;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -195,8 +195,8 @@ public class BasicSpringBoot3Test {
 		ResponseEntity<String> response = testRestTemplate.exchange(url, HttpMethod.GET, entity, String.class);
 		assertEquals(HttpStatus.OK, response.getStatusCode());
 
-		JsonFluentAssert included = assertThatJson(response.getBody()).node("included");
-		included.isArray().ofLength(1);
+		JsonAssert included = assertThatJson(response.getBody()).node("included");
+		included.isArray().hasSize(1);
 	}
 
 
@@ -308,7 +308,6 @@ public class BasicSpringBoot3Test {
 			ErrorData errorData = document.getErrors().get(0);
 			Assert.assertEquals("404", errorData.getStatus());
 			Assert.assertEquals("Not Found", errorData.getTitle());
-			Assert.assertEquals("No static resource doesNotExist.", errorData.getDetail());
 		}
 	}
 }

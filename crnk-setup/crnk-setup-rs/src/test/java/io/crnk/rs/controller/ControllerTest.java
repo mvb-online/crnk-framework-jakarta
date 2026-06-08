@@ -57,9 +57,8 @@ public abstract class ControllerTest extends JerseyTestBase {
 				.header("X-test", headerTestValue)
 				.get(String.class);
 
-		assertThatJson(taskResourceResponse)
-				.node("data").isPresent()
-				.node("data.attributes.name").isStringEqualTo(headerTestValue);
+		assertThatJson(taskResourceResponse).node("data").isPresent();
+		assertThatJson(taskResourceResponse).node("data.attributes.name").isStringEqualTo(headerTestValue);
 	}
 
 	@Test

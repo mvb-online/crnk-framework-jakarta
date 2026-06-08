@@ -2,6 +2,7 @@ package io.crnk.core.resource.meta;
 
 import tools.jackson.core.JacksonException;
 
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.ObjectReader;
@@ -35,7 +36,10 @@ public class JsonLinksInformation implements LinksInformation, CastableInformati
 			if (linksClass.isInterface()) {
 				return JsonMetaInformation.createInterfaceJsonAdapter(linksClass, data, mapper);
 			}
-			ObjectReader reader = mapper.readerFor(linksClass);
+			ObjectReader reader = mapper.rebuild()
+					.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+					.build()
+					.readerFor(linksClass);
 			return reader.readValue(data);
 		}
 		catch (JacksonException e) {

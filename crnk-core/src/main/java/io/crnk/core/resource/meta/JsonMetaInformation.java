@@ -1,5 +1,6 @@
 package io.crnk.core.resource.meta;
 
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.ObjectReader;
@@ -38,7 +39,11 @@ public class JsonMetaInformation implements MetaInformation, CastableInformation
 			if (metaClass.isInterface()) {
 				return createInterfaceJsonAdapter(metaClass, data, mapper);
 			}
-			return mapper.readerFor(metaClass).readValue(data);
+			return mapper.rebuild()
+					.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+					.build()
+					.readerFor(metaClass)
+					.readValue(data);
 		}
 		catch (JacksonException e) {
 			throw new IllegalStateException(e);

@@ -13,7 +13,6 @@ dependencies {
 	implementation "io.github.vpelikh:swagger-integration-jakarta:$VPELIKH_SWAGGER_VERSION"
 	implementation "io.github.vpelikh:swagger-core-jakarta:$VPELIKH_SWAGGER_VERSION"
     implementation "io.github.vpelikh:swagger-models-jakarta:$VPELIKH_SWAGGER_VERSION"
-	implementation 'io.swagger.parser.v3:swagger-parser:2.1.42'
 
     testImplementation 'commons-io:commons-io:2.14.0'
     testImplementation  project(':crnk-meta')

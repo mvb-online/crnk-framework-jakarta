@@ -12,7 +12,6 @@ import tools.jackson.databind.DeserializationContext;
 import tools.jackson.databind.ValueDeserializer;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
-import tools.jackson.databind.ObjectReader;
 import tools.jackson.databind.node.ArrayNode;
 import tools.jackson.databind.node.NullNode;
 import tools.jackson.databind.node.ObjectNode;
@@ -30,10 +29,10 @@ public class PlainJsonDocumentDeserializer extends ValueDeserializer<PlainJsonDo
 
 	private static final List<String> SYSTEM_FIELDS = Arrays.asList("id", "type", "meta", "links");
 
-	private ObjectMapper objectMapper;
+	public PlainJsonDocumentDeserializer() {
+	}
 
 	public PlainJsonDocumentDeserializer(ObjectMapper objectMapper) {
-		this.objectMapper = objectMapper;
 	}
 
 	@Override
@@ -47,10 +46,9 @@ public class PlainJsonDocumentDeserializer extends ValueDeserializer<PlainJsonDo
 
 		ArrayNode errors = (ArrayNode) documentNode.get("errors");
 		if (errors != null) {
-			ObjectReader errorReader = objectMapper.readerFor(ErrorData.class);
 			List<ErrorData> errorDataList = new ArrayList<>();
 			for (JsonNode error : errors) {
-				ErrorData errorData = errorReader.readValue(error);
+				ErrorData errorData = context.readTreeAsValue(error, ErrorData.class);
 				errorDataList.add(errorData);
 			}
 			document.setErrors(errorDataList);

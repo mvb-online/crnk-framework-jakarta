@@ -15,7 +15,6 @@ import io.crnk.test.mock.models.Project;
 import io.crnk.test.mock.models.Task;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.PathItem;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -76,10 +75,8 @@ public class OpenAPIGeneratorComplexTest extends OpenAPIGeneratorTestBase {
     generatorModule.initDefaults(buildDir);
     generatorModule.getConfig().setOutputSorted(true);  // Ensures deterministic output
     generatorModule.generate(metaModule.getLookup());
-    // Parsable
-    new OpenAPIV3Parser().read(outputPath);
 
-    OpenAPI openApi = new OpenAPIV3Parser().read(outputPath);
+    OpenAPI openApi = readOpenAPI(outputPath);
 
     Assert.assertEquals("Generated Title", openApi.getInfo().getTitle());
     Assert.assertEquals("Generated Description", openApi.getInfo().getDescription());

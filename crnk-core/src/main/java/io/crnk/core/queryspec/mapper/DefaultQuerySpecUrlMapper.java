@@ -532,9 +532,23 @@ public class DefaultQuerySpecUrlMapper
 		List<QueryParameter> list = new ArrayList<>();
 		Set<Map.Entry<String, Set<String>>> entrySet = params.entrySet();
 		for (Map.Entry<String, Set<String>> entry : entrySet) {
-			list.add(parseParameter(entry.getKey(), entry.getValue(), rootResourceInformation));
+			if (!isEmptyFilterParameter(entry.getKey(), entry.getValue())) {
+				list.add(parseParameter(entry.getKey(), entry.getValue(), rootResourceInformation));
+			}
 		}
 		return list;
+	}
+
+	private boolean isEmptyFilterParameter(String parameterName, Set<String> values) {
+		if (!QueryParameterType.FILTER.name().equalsIgnoreCase(parameterName)) {
+			return false;
+		}
+		for (String value : values) {
+			if (value != null && !value.isEmpty()) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	protected QueryParameter parseParameter(String parameterName, Set<String> values,

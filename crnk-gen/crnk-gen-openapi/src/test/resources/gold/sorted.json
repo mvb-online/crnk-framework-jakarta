@@ -9,30 +9,26 @@
     "/simpleTasks" : {
       "get" : {
         "description" : "Retrieve a List of \"Tasks\"",
-        "extensions" : {
-          "x-amazon-apigateway-integration" : {
-            "httpMethod" : "GET",
-            "passthroughBehavior" : "when_no_match",
-            "type" : "http",
-            "uri" : "/api/public/todo/simpleTasks"
-          }
-        },
         "operationId" : "totallyCustomGetOp",
-        "summary" : "This summary and description is in the template and not overwritten on generation"
+        "summary" : "This summary and description is in the template and not overwritten on generation",
+        "x-amazon-apigateway-integration" : {
+          "httpMethod" : "GET",
+          "passthroughBehavior" : "when_no_match",
+          "type" : "http",
+          "uri" : "/api/public/todo/simpleTasks"
+        }
       }
     },
     "/simpleTasks/{id}" : {
       "get" : {
-        "extensions" : {
-          "x-amazon-apigateway-integration" : {
-            "httpMethod" : "GET",
-            "passthroughBehavior" : "when_no_match",
-            "requestParameters" : {
-              "integration.request.path.TaskId" : "method.request.path.TaskId"
-            },
-            "type" : "http",
-            "uri" : "/api/public/todo/simpleTasks/{TaskId}"
-          }
+        "x-amazon-apigateway-integration" : {
+          "httpMethod" : "GET",
+          "passthroughBehavior" : "when_no_match",
+          "requestParameters" : {
+            "integration.request.path.TaskId" : "method.request.path.TaskId"
+          },
+          "type" : "http",
+          "uri" : "/api/public/todo/simpleTasks/{TaskId}"
         }
       }
     }

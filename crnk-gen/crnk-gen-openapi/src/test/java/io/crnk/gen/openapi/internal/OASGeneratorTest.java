@@ -1,13 +1,14 @@
 package io.crnk.gen.openapi.internal;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
 import java.util.Objects;
 
 import io.crnk.gen.openapi.OutputFormat;
+import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.OpenAPI;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.SystemUtils;
@@ -20,14 +21,14 @@ public class OASGeneratorTest {
   private OpenAPI openApi;
 
   @Before
-  public void setup() {
+  public void setup() throws IOException {
     String templatePath = Objects.requireNonNull(
         getClass().getClassLoader().getResource("openapi-template.yml")
     ).getPath();
     if(SystemUtils.IS_OS_WINDOWS) {
       templatePath = StringUtils.removeStart(templatePath, "/");
     }
-    openApi = new OpenAPIV3Parser().read(templatePath);
+    openApi = Yaml.mapper().readValue(new File(templatePath), OpenAPI.class);
   }
 
   @Test

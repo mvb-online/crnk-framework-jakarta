@@ -52,7 +52,8 @@ public class CrnkCoreAutoConfigurationTest {
         ConstantServiceUrlProvider constantServiceUrlProvider = (ConstantServiceUrlProvider) boot.getServiceUrlProvider();
         Assert.assertEquals("testDomain/prefix", constantServiceUrlProvider.getUrl());
 
-        Assert.assertSame(objectMapper, boot.getObjectMapper());
+        Assert.assertNotNull(boot.getObjectMapper());
+        Assert.assertNotSame(objectMapper, boot.getObjectMapper());
 
         Assert.assertNotNull(boot.getModuleRegistry().getSecurityProvider());
     }

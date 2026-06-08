@@ -1,11 +1,12 @@
 package io.crnk.gen.openapi;
 
+import tools.jackson.core.JacksonException;
 import io.crnk.gen.base.GeneratorModuleConfigBase;
+import io.swagger.v3.core.util.Yaml;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Paths;
 import io.swagger.v3.oas.models.info.Info;
-import io.swagger.v3.parser.OpenAPIV3Parser;
 
 import java.io.File;
 
@@ -69,7 +70,12 @@ public class OpenAPIGeneratorConfig extends GeneratorModuleConfigBase {
     if (openAPI == null) {
       if (this.getTemplateName() != null) {
         File templateFile = new File(buildDir, this.getTemplateName());
-        OpenAPI openAPI = new OpenAPIV3Parser().read(templateFile.getAbsolutePath());
+        OpenAPI openAPI;
+        try {
+          openAPI = Yaml.mapper().readValue(templateFile, OpenAPI.class);
+        } catch (JacksonException e) {
+          throw new IllegalStateException(e);
+        }
 
         if (openAPI.getPaths() == null) {
           openAPI.paths(new Paths());

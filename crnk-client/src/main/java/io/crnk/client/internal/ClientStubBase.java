@@ -149,6 +149,7 @@ public class ClientStubBase {
 		String body = response.body();
 		String contentType = response.getResponseHeader(HttpHeaders.HTTP_CONTENT_TYPE);
 		if (body != null && body.length() > 0 && contentType != null && contentType.toLowerCase().contains(format.getAcceptType())) {
+			client.getExceptionMapperRegistry();
 			ObjectMapper objectMapper = client.getObjectMapper();
 			Document document = objectMapper.readValue(body, format.getDocumentClass());
 			if (document.getErrors() != null && !document.getErrors().isEmpty()) {

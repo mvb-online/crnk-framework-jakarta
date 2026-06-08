@@ -119,7 +119,7 @@ public class InteroperabilityTest extends JerseyTestBase {
         JsonapiExceptionMapperBridge bridge = new JsonapiExceptionMapperBridge(feature);
         jakarta.ws.rs.core.Response response = bridge.toResponse(new CustomException());
         Assert.assertEquals(500, response.getStatus());
-        Assert.assertTrue(response.getEntity() instanceof Document);
+        Assert.assertTrue(response.getEntity() instanceof JsonApiDocumentResponse);
     }
 
     class CustomException extends RuntimeException {

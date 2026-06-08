@@ -52,7 +52,7 @@ public class JsonapiExceptionMapperBridge implements ExceptionMapper<RuntimeExce
 		}
 		doc.setErrors(errors);
 
-		return Response.status(errorResponse.getHttpStatus()).entity(doc).header("Content-Type", JsonApiMediaType.APPLICATION_JSON_API).build();
+		return Response.status(errorResponse.getHttpStatus()).entity(new JsonApiDocumentResponse(doc)).header("Content-Type", JsonApiMediaType.APPLICATION_JSON_API).build();
 	}
 
 }

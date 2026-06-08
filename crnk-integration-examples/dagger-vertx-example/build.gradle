@@ -17,7 +17,7 @@ configurations {
 buildscript {
     dependencies {
         classpath "net.ltgt.gradle:gradle-apt-plugin:0.21"
-		classpath 'com.guardsquare:proguard-gradle:7.3.2'
+		classpath 'com.guardsquare:proguard-gradle:7.6.1'
 	}
 }
 

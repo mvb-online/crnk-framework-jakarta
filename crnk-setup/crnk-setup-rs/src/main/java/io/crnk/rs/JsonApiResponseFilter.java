@@ -59,7 +59,7 @@ public class JsonApiResponseFilter implements ContainerResponseFilter {
             if (feature.getBoot().isNullDataResponseEnabled()) {
                 Document document = new Document();
                 document.setData(Nullable.nullValue());
-                responseContext.setEntity(document);
+                responseContext.setEntity(new JsonApiDocumentResponse(document));
                 responseContext.setStatus(Response.Status.OK.getStatusCode());
                 responseContext.getHeaders().put("Content-Type",
                         Collections.singletonList(JsonApiMediaType.APPLICATION_JSON_API));
@@ -94,7 +94,8 @@ public class JsonApiResponseFilter implements ContainerResponseFilter {
 
                 ResourceRegistry resourceRegistry = feature.getBoot().getResourceRegistry();
                 QueryAdapter queryAdapter = new QuerySpecAdapter(querySpec, resourceRegistry, queryContext);
-                responseContext.setEntity(documentMapper.toDocument(jsonApiResponse, queryAdapter, mappingConfig).get());
+                Document document = documentMapper.toDocument(jsonApiResponse, queryAdapter, mappingConfig).get();
+                responseContext.setEntity(new JsonApiDocumentResponse(document));
                 responseContext.getHeaders().put("Content-Type",
                         Collections.singletonList(JsonApiMediaType.APPLICATION_JSON_API));
             } finally {
@@ -103,7 +104,7 @@ public class JsonApiResponseFilter implements ContainerResponseFilter {
         } else if (isJsonApiResponse(responseContext) && !doNotWrap(response)) {
             Document document = new Document();
             document.setData(Nullable.of(response));
-            responseContext.setEntity(document);
+            responseContext.setEntity(new JsonApiDocumentResponse(document));
         }
     }
 
@@ -164,6 +165,7 @@ public class JsonApiResponseFilter implements ContainerResponseFilter {
      * Some entity objects cannot be wrapped in a {@link Document} object. These include
      * <ul>
      * <li>{@link Document}, and</li>
+     * <li>{@link JsonApiDocumentResponse}, and</li>
      * <li>{@link InputStream}</li>
      * </ul>
      *
@@ -172,7 +174,7 @@ public class JsonApiResponseFilter implements ContainerResponseFilter {
      * <code>false</code>, otherwise
      */
     private boolean doNotWrap(Object entity) {
-        return entity instanceof Document || entity instanceof InputStream;
+        return entity instanceof Document || entity instanceof JsonApiDocumentResponse || entity instanceof InputStream;
     }
 
 }

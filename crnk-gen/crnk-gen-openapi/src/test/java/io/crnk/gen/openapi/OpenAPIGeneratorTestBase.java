@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Field;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -12,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 import io.swagger.v3.core.util.Yaml;
+import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.oas.models.PathItem;
 import io.swagger.v3.oas.models.responses.ApiResponses;
@@ -21,10 +21,11 @@ import org.junit.Before;
 
 class OpenAPIGeneratorTestBase {
   @Before
-  public void resetYamlSingleton() throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
-     Field instance = Yaml.class.getDeclaredField("mapper");
-     instance.setAccessible(true);
-     instance.set(null, null);
+  public void resetYamlSingleton() {
+  }
+
+  static OpenAPI readOpenAPI(String path) throws IOException {
+    return Yaml.mapper().readValue(new File(path), OpenAPI.class);
   }
 
   static void assertJsonAPICompliantPath(String path, PathItem pathItem) {

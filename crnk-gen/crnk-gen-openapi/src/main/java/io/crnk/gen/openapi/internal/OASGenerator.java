@@ -5,7 +5,6 @@ import tools.jackson.core.util.DefaultPrettyPrinter;
 import tools.jackson.databind.MapperFeature;
 import tools.jackson.databind.ObjectMapper;
 import tools.jackson.databind.SerializationFeature;
-import com.google.common.annotations.VisibleForTesting;
 import io.crnk.gen.openapi.OpenAPIGeneratorConfig;
 import io.crnk.gen.openapi.OutputFormat;
 import io.crnk.gen.openapi.internal.operations.OASOperation;
@@ -99,7 +98,6 @@ public class OASGenerator {
     return openApi;
   }
 
-  @VisibleForTesting
   static String generateOpenApiContent(OpenAPI openApi, OutputFormat outputFormat, Boolean sort) {
     if (sort) {
       ObjectMapper objectMapper = outputFormat.mapper();
@@ -108,9 +106,7 @@ public class OASGenerator {
               .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
               .build();
       try {
-        // todo #43826
-        //return objectMapper.writer(new DefaultPrettyPrinter()).writeValueAsString(openApi);
-        return null;
+        return objectMapper.writer().with(new DefaultPrettyPrinter()).writeValueAsString(openApi);
       } catch (JacksonException e) {
         LOGGER.error("Sorting failed!");
         return outputFormat.pretty(openApi);

@@ -1,6 +1,7 @@
 package io.crnk.core.engine.internal.dispatcher.controller;
 
 import tools.jackson.core.JacksonException;
+import tools.jackson.databind.DeserializationFeature;
 import tools.jackson.databind.JavaType;
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
@@ -110,7 +111,7 @@ public abstract class ResourceUpsert extends ResourceIncludeField {
 		if (dataBody.getLinks() != null && linksField != null) {
 			JsonNode linksNode = dataBody.getLinks();
 			Class<?> linksClass = linksField.getType();
-			ObjectReader linksMapper = context.getObjectMapper().readerFor(linksClass);
+			ObjectReader linksMapper = strictObjectMapper().readerFor(linksClass);
 			try {
 				Object links = linksMapper.readValue(linksNode);
 				linksField.getAccessor().setValue(instance, links);
@@ -127,7 +128,7 @@ public abstract class ResourceUpsert extends ResourceIncludeField {
 
 			Class<?> metaClass = metaField.getType();
 
-			ObjectReader metaMapper = context.getObjectMapper().readerFor(metaClass);
+			ObjectReader metaMapper = strictObjectMapper().readerFor(metaClass);
 			try {
 				Object meta = metaMapper.readValue(metaNode);
 				metaField.getAccessor().setValue(instance, meta);
@@ -135,6 +136,13 @@ public abstract class ResourceUpsert extends ResourceIncludeField {
 				throw newBodyException("failed to parse links information", e);
 			}
 		}
+	}
+
+	private ObjectMapper strictObjectMapper() {
+		return context.getObjectMapper()
+				.rebuild()
+				.enable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+				.build();
 	}
 
 	protected RuntimeException newBodyException(String message, Exception e) {
