@@ -27,6 +27,10 @@ asciidoctor {
     }
 }
 
+test {
+    jvmArgs '-Xmx512m'
+}
+
 // implementation generated asciidoc files
 tasks.test.doFirst {
     delete 'build/tmp/asciidoc'
