@@ -34,7 +34,8 @@ public class OASAnnotations {
     // Hack to support ObjectNode: When an Object has two setters with the same number
     // of parameters the parser blows up.
     ObjectMapper mapper = Json.mapper();
-    mapper.addMixIn(ObjectNode.class, IgnoreObjectNodeSetAllIntMixIn.class);
+    // todo #43826
+    //mapper.addMixIn(ObjectNode.class, IgnoreObjectNodeSetAllIntMixIn.class);
   }
 
   private static class SingletonHelper {

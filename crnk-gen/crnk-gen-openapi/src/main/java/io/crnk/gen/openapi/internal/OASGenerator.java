@@ -108,7 +108,9 @@ public class OASGenerator {
               .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
               .build();
       try {
-        return objectMapper.writer(new DefaultPrettyPrinter()).writeValueAsString(openApi);
+        // todo #43826
+        //return objectMapper.writer(new DefaultPrettyPrinter()).writeValueAsString(openApi);
+        return null;
       } catch (JacksonException e) {
         LOGGER.error("Sorting failed!");
         return outputFormat.pretty(openApi);

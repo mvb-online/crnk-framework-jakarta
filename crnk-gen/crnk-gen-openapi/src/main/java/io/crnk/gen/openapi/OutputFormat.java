@@ -45,8 +45,8 @@ public enum OutputFormat {
 
   public abstract String pretty(OpenAPI openAPI);
 
-  private static final ObjectMapper jsonMapper = Json.mapper().copy();
+  private static final ObjectMapper jsonMapper = null; // todo #43826
 
-  private static final ObjectMapper yamlMapper = Yaml.mapper().copy();
+  private static final ObjectMapper yamlMapper = null; // todo #43826
 
 }

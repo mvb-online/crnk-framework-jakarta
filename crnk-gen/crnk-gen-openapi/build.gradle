@@ -9,9 +9,10 @@ dependencies {
     implementation project(':crnk-gen:crnk-gen-base')
 
 	implementation 'guru.nidi:graphviz-java:0.18.1'
-	implementation "io.swagger.core.v3:swagger-integration-jakarta:$SWAGGER_VERSION"
-	implementation "io.swagger.core.v3:swagger-core-jakarta:$SWAGGER_VERSION"
-    implementation "io.swagger.core.v3:swagger-models-jakarta:$SWAGGER_VERSION"
+    // todo #43826 switch to official swagger dependencies once they are available. See: https://github.com/swagger-api/swagger-core/pull/5031
+	implementation "io.github.vpelikh:swagger-integration-jakarta:$VPELIKH_SWAGGER_VERSION"
+	implementation "io.github.vpelikh:swagger-core-jakarta:$VPELIKH_SWAGGER_VERSION"
+    implementation "io.github.vpelikh:swagger-models-jakarta:$VPELIKH_SWAGGER_VERSION"
 	implementation 'io.swagger.parser.v3:swagger-parser:2.1.42'
 
     testImplementation 'commons-io:commons-io:2.14.0'
