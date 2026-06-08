@@ -11,7 +11,6 @@ buildscript {
 		// classpath 'org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:2.5-rc1'
 		classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.8.1"
 
-		classpath "com.github.rmee:jdk-bootstrap:${RMEE_GRADLE_VERSION}"
 		classpath 'com.bmuschko:gradle-docker-plugin:6.7.0'
 		classpath 'com.vanniktech:gradle-maven-publish-plugin:0.15.1'
 	}
@@ -38,10 +37,6 @@ wrapper {
 	gradleVersion = '8.14.4'
 }
 
-apply plugin: 'jdk-bootstrap'
-jdk {
-	useAdoptOpenJdk8(JDK_VERSION)
-}
 
 // note that a production build creates javadoc, sources jars and signatures undesired during development
 // for performance reasons
