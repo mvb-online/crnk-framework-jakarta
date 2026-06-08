@@ -66,6 +66,7 @@ public class CrnkFeature implements Feature {
 
         CrnkFilter crnkFilter = createCrnkFilter();
         context.register(crnkFilter);
+        context.register(new JsonApiDocumentMessageBodyWriter(this));
 
         registerActionRepositories(context, boot);
         LOGGER.debug("configured CrnkFeature");
