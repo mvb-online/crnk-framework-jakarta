@@ -58,7 +58,7 @@ public class SimpleModule implements Module {
 
     private List<PagingBehavior> pagingBehaviors = new ArrayList<>();
 
-    private List<com.fasterxml.jackson.databind.Module> jacksonModules = new ArrayList<>();
+    private List<tools.jackson.databind.JacksonModule> jacksonModules = new ArrayList<>();
 
     private List<Object> repositories = new ArrayList<>();
 
@@ -117,7 +117,7 @@ public class SimpleModule implements Module {
         for (RepositoryDecoratorFactory decorator : repositoryDecoratorFactories) {
             context.addRepositoryDecoratorFactory(decorator);
         }
-        for (com.fasterxml.jackson.databind.Module jacksonModule : jacksonModules) {
+        for (tools.jackson.databind.JacksonModule jacksonModule : jacksonModules) {
             context.addJacksonModule(jacksonModule);
         }
         for (RepositoryAdapterFactory factory : repositoryAdapterFactories) {
@@ -281,12 +281,12 @@ public class SimpleModule implements Module {
         securityProviders.add(securityProvider);
     }
 
-    public void addJacksonModule(com.fasterxml.jackson.databind.Module module) {
+    public void addJacksonModule(tools.jackson.databind.JacksonModule module) {
         checkInitialized();
         jacksonModules.add(module);
     }
 
-    protected List<com.fasterxml.jackson.databind.Module> getJacksonModules() {
+    protected List<tools.jackson.databind.JacksonModule> getJacksonModules() {
         checkInitialized();
         return Collections.unmodifiableList(jacksonModules);
     }

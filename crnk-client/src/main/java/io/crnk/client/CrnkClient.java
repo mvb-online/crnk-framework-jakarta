@@ -11,8 +11,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.ServiceLoader;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.client.action.ActionStubFactory;
 import io.crnk.client.action.ActionStubFactoryContext;
 import io.crnk.client.http.HttpAdapter;
@@ -262,7 +263,9 @@ public class CrnkClient {
 			addModule(module);
 		}
 
-		objectMapper.findAndRegisterModules();
+		objectMapper = objectMapper.rebuild()
+				.findAndAddModules()
+				.build();
 	}
 
 	public void setProxyFactory(ClientProxyFactory proxyFactory) {
@@ -344,9 +347,9 @@ public class CrnkClient {
 	}
 
 	protected ObjectMapper createDefaultObjectMapper() {
-		ObjectMapper om = new ObjectMapper();
-		om.enable(SerializationFeature.INDENT_OUTPUT);
-		return om;
+		return JsonMapper.builder()
+				.enable(SerializationFeature.INDENT_OUTPUT)
+				.build();
 	}
 
 	protected void configureObjectMapper() {
@@ -368,6 +371,8 @@ public class CrnkClient {
 
 	protected void initModuleRegistry() {
 		moduleRegistry.init(objectMapper);
+		// ObjectMapper may have been rebuilt with Jackson modules
+		objectMapper = moduleRegistry.getObjectMapper();
 
 		switch (clientType) {
 			case OBJECT_LINKS:

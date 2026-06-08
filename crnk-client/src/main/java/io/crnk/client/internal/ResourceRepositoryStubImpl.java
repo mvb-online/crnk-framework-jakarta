@@ -1,6 +1,6 @@
 package io.crnk.client.internal;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.crnk.client.ClientFormat;
 import io.crnk.client.CrnkClient;
 import io.crnk.core.engine.document.Document;

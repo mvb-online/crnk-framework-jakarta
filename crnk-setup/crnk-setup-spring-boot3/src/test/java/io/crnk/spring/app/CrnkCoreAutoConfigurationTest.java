@@ -1,6 +1,7 @@
 package io.crnk.spring.app;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.engine.properties.PropertiesProvider;
@@ -31,7 +32,7 @@ public class CrnkCoreAutoConfigurationTest {
         properties.setAllowUnknownAttributes(true);
         properties.setReturn404OnNull(true);
 
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder().build();
 
         CrnkCoreAutoConfiguration config = new CrnkCoreAutoConfiguration(properties, objectMapper);
         config.setApplicationContext(applicationContext);

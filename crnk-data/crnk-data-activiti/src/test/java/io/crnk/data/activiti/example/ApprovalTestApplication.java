@@ -1,8 +1,8 @@
 package io.crnk.data.activiti.example;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.cfg.DateTimeFeature;
 import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.module.ModuleRegistry;
 import io.crnk.core.module.SimpleModule;
@@ -36,6 +36,8 @@ import org.glassfish.jersey.server.ResourceConfig;
 
 import jakarta.inject.Singleton;
 import jakarta.ws.rs.ApplicationPath;
+import tools.jackson.databind.json.JsonMapper;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -71,11 +73,12 @@ public class ApprovalTestApplication extends ResourceConfig {
     }
 
     private void initObjectMapper(CrnkFeature feature) {
-        ObjectMapper objectMapper = feature.getObjectMapper();
-        objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.findAndRegisterModules();
-        objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+        //objectMapper = feature.getObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder()
+                .enable(SerializationFeature.INDENT_OUTPUT)
+                .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .build();
+        feature.getBoot().setObjectMapper(objectMapper);
     }
 
     // tag::approvalModule[]

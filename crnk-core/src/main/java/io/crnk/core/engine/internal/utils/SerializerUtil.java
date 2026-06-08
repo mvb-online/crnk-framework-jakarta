@@ -1,11 +1,10 @@
 package io.crnk.core.engine.internal.utils;
 
-import java.io.IOException;
-
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.resource.links.DefaultLink;
 import io.crnk.core.resource.links.Link;
 
@@ -98,17 +97,17 @@ public class SerializerUtil {
 	}
 
 
-	public void serializeLink(JsonGenerator gen, String fieldName, String url) throws IOException {
+	public void serializeLink(JsonGenerator gen, String fieldName, String url) throws JacksonException {
 		if (serializeLinksAsObjects) {
-			gen.writeObjectFieldStart(fieldName);
-			gen.writeStringField(HREF, url);
+			gen.writeObjectPropertyStart(fieldName);
+			gen.writeStringProperty(HREF, url);
 			gen.writeEndObject();
 		} else {
-			gen.writeStringField(fieldName, url);
+			gen.writeStringProperty(fieldName, url);
 		}
 	}
 
-	public static String deserializeLink(String fieldName, JsonNode jsonNode) throws IOException {
+	public static String deserializeLink(String fieldName, JsonNode jsonNode) {
 		JsonNode linkNode = jsonNode.get(fieldName);
 		if (linkNode != null && linkNode.has(HREF)) {
 			return readStringIfExists(HREF, linkNode);
@@ -125,9 +124,9 @@ public class SerializerUtil {
 		}
 	}
 
-	public static void writeStringIfExists(String fieldName, String value, JsonGenerator gen) throws IOException {
+	public static void writeStringIfExists(String fieldName, String value, JsonGenerator gen) throws JacksonException {
 		if (value != null) {
-			gen.writeStringField(fieldName, value);
+			gen.writeStringProperty(fieldName, value);
 		}
 	}
 }

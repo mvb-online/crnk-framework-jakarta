@@ -1,7 +1,7 @@
 package io.crnk.core.module;
 
-import com.fasterxml.jackson.databind.Module;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JacksonModule;
+import tools.jackson.databind.ObjectMapper;
 import io.crnk.core.engine.dispatcher.RequestDispatcher;
 import io.crnk.core.engine.error.ExceptionMapper;
 import io.crnk.core.engine.filter.DocumentFilter;
@@ -170,7 +170,7 @@ public class SimpleModuleTest {
 
     @Test
     public void testJacksonModule() {
-        module.addJacksonModule(new com.fasterxml.jackson.databind.module.SimpleModule() {
+        module.addJacksonModule(new tools.jackson.databind.module.SimpleModule() {
 
             private static final long serialVersionUID = 7829254359521781942L;
 
@@ -278,7 +278,7 @@ public class SimpleModuleTest {
         }
 
         @Override
-        public void addJacksonModule(Module module) {
+        public void addJacksonModule(JacksonModule module) {
             numJacksonModules++;
         }
 

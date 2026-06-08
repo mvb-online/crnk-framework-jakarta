@@ -1,6 +1,7 @@
 package io.crnk.data.jpa.information;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.information.resource.ResourceField;
 import io.crnk.core.engine.information.resource.ResourceFieldType;
 import io.crnk.core.engine.information.resource.ResourceInformation;
@@ -56,7 +57,7 @@ public class JpaResourceInformationProviderTest {
         lookup.addProvider(jpaMetaProvider);
         builder = new JpaResourceInformationProvider(new NullPropertiesProvider());
         builder.init(new DefaultResourceInformationProviderContext(builder, new DefaultInformationBuilder(new TypeParser()),
-                new TypeParser(), () -> new ObjectMapper()));
+                new TypeParser(), () -> JsonMapper.builder().build()));
     }
 
     @Test

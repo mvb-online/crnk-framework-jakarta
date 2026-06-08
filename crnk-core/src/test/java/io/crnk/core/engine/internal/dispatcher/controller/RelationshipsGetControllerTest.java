@@ -15,7 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import static junit.framework.TestCase.assertTrue;
-import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertEquals;
 
@@ -115,7 +115,7 @@ public class RelationshipsGetControllerTest extends ControllerTestBase {
 
 	/*
 	@Test
-	public void supportPolymorphicRelationshipTypes() throws JsonProcessingException {
+	public void supportPolymorphicRelationshipTypes() throws JacksonException {
 		// GIVEN
 		Long projectId = 1L;
 		String type = ClassUtils.getAnnotation(ProjectPolymorphic.class, JsonApiResource.class).get().type();

@@ -1,6 +1,7 @@
 package io.crnk.core.module;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.dispatcher.Response;
 import io.crnk.core.engine.error.ExceptionMapper;
 import io.crnk.core.engine.filter.DocumentFilter;
@@ -100,11 +101,11 @@ public class ModuleRegistryTest {
         testModule = new TestModule();
         moduleRegistry.addModule(testModule);
         moduleRegistry.addModule(new CoreModule());
-        moduleRegistry.addModule(new JacksonModule(new ObjectMapper(), false));
+        moduleRegistry.addModule(new JacksonModule(JsonMapper.builder().build(), false));
 
         moduleRegistry.addPagingBehavior(new OffsetLimitPagingBehavior());
         moduleRegistry.addModule(new ResourceInformationProviderModule());
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
 
         Assert.assertEquals(resourceRegistry, moduleRegistry.getResourceRegistry());
     }
@@ -131,7 +132,7 @@ public class ModuleRegistryTest {
         module.addFilter(filter2);
         moduleRegistry.setResourceRegistry(new ResourceRegistryImpl(new DefaultResourceRegistryPart(), moduleRegistry));
         moduleRegistry.addModule(module);
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
 
         List<DocumentFilter> filters = moduleRegistry.getFilters();
         Assert.assertSame(filter2, filters.get(0));
@@ -157,7 +158,7 @@ public class ModuleRegistryTest {
         module.addResourceModificationFilter(filter2);
         moduleRegistry.addModule(module);
         moduleRegistry.setResourceRegistry(new ResourceRegistryImpl(new DefaultResourceRegistryPart(), moduleRegistry));
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
 
         List<ResourceModificationFilter> filters = moduleRegistry.getResourceModificationFilters();
         Assert.assertSame(filter2, filters.get(0));
@@ -170,7 +171,7 @@ public class ModuleRegistryTest {
         SimpleModule module = new SimpleModule("test");
         moduleRegistry.setResourceRegistry(new ResourceRegistryImpl(new DefaultResourceRegistryPart(), moduleRegistry));
         moduleRegistry.addModule(module);
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
         Assert.assertEquals(moduleRegistry.getResourceInformationBuilder().getResourcePath(TestResource2.class), null);
     }
 
@@ -192,7 +193,7 @@ public class ModuleRegistryTest {
         module.addRepositoryFilter(filter2);
         moduleRegistry.addModule(module);
         moduleRegistry.setResourceRegistry(new ResourceRegistryImpl(new DefaultResourceRegistryPart(), moduleRegistry));
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
 
         List<RepositoryFilter> filters = moduleRegistry.getRepositoryFilters();
         Assert.assertSame(filter2, filters.get(0));
@@ -288,7 +289,7 @@ public class ModuleRegistryTest {
 
     @Test(expected = IllegalStateException.class)
     public void testDuplicateInitialization() {
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = JsonMapper.builder().build();
         moduleRegistry.init(objectMapper);
     }
 
@@ -395,10 +396,12 @@ public class ModuleRegistryTest {
 
     @Test
     public void testJacksonModule() {
-        List<com.fasterxml.jackson.databind.Module> jacksonModules = moduleRegistry.getJacksonModules();
-        Assert.assertEquals(1, jacksonModules.size());
-        com.fasterxml.jackson.databind.Module jacksonModule = jacksonModules.get(0);
+        List<tools.jackson.databind.JacksonModule> jacksonModules = moduleRegistry.getJacksonModules();
+        Assert.assertEquals(2, jacksonModules.size());
+        tools.jackson.databind.JacksonModule jacksonModule = jacksonModules.get(0);
         Assert.assertEquals("test", jacksonModule.getModuleName());
+        jacksonModule = jacksonModules.get(1);
+        Assert.assertEquals("crnk", jacksonModule.getModuleName());
     }
 
     @Test
@@ -453,7 +456,7 @@ public class ModuleRegistryTest {
         moduleRegistry = new ModuleRegistry();
         moduleRegistry.setResourceRegistry(resourceRegistry);
         moduleRegistry.addModule(module);
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
 
         ExceptionMapperRegistry registry = moduleRegistry.getExceptionMapperRegistry();
         Response response = registry.toResponse(new ForbiddenException("test"));
@@ -464,7 +467,7 @@ public class ModuleRegistryTest {
     public void checkNotOverrideDefaultExceptionMapper() {
         moduleRegistry = new ModuleRegistry();
         moduleRegistry.setResourceRegistry(resourceRegistry);
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
 
         Response response = moduleRegistry.getExceptionMapperRegistry().toResponse(new ForbiddenException("test"));
         Assert.assertEquals(HttpStatus.FORBIDDEN_403, response.getHttpStatus().intValue());
@@ -479,7 +482,7 @@ public class ModuleRegistryTest {
         moduleRegistry = new ModuleRegistry();
         moduleRegistry.setResourceRegistry(resourceRegistry);
         moduleRegistry.addModule(module);
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
 
         Response response = moduleRegistry.getExceptionMapperRegistry().toResponse(new IllegalStateException());
         Assert.assertEquals(HttpStatus.BAD_REQUEST_400, response.getHttpStatus().intValue());
@@ -494,7 +497,7 @@ public class ModuleRegistryTest {
         moduleRegistry = new ModuleRegistry();
         moduleRegistry.setResourceRegistry(resourceRegistry);
         moduleRegistry.addModule(module);
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
 
         ExceptionMapperRegistry registry = moduleRegistry.getExceptionMapperRegistry();
         Response response = registry.toResponse(new IllegalStateException());
@@ -555,7 +558,7 @@ public class ModuleRegistryTest {
             context.addResourceLookup(new TestResourceLookup());
             context.addResourceInformationProvider(new TestResourceInformationProvider());
 
-            context.addJacksonModule(new com.fasterxml.jackson.databind.module.SimpleModule() {
+            context.addJacksonModule(new tools.jackson.databind.module.SimpleModule() {
 
                 private static final long serialVersionUID = 7829254359521781942L;
 

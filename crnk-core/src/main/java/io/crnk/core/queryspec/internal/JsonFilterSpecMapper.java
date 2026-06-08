@@ -1,11 +1,11 @@
 package io.crnk.core.queryspec.internal;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectReader;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.internal.utils.ClassUtils;
 import io.crnk.core.engine.internal.utils.PreconditionUtil;
@@ -19,10 +19,10 @@ import io.crnk.core.queryspec.mapper.QueryPathResolver;
 import io.crnk.core.queryspec.mapper.QueryPathSpec;
 import io.crnk.core.queryspec.mapper.QuerySpecUrlContext;
 
-import java.io.IOException;
+import tools.jackson.core.JacksonException;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Iterator;
+
 import java.util.List;
 import java.util.Map;
 
@@ -76,7 +76,7 @@ public class JsonFilterSpecMapper {
 				}
 				return filterSpecs;
 			}
-			catch (IOException e) {
+			catch (JacksonException e) {
 				throw new BadRequestException("failed to parse parameter", e);
 			}
 		}
@@ -166,9 +166,7 @@ public class JsonFilterSpecMapper {
 			ObjectNode objectNode = (ObjectNode) jsonNode;
 
 			List<FilterSpec> filterSpecs = new ArrayList<>();
-			Iterator<String> fieldNames = objectNode.fieldNames();
-			while (fieldNames.hasNext()) {
-				String fieldName = fieldNames.next();
+			for (String fieldName : objectNode.propertyNames()) {
 				JsonNode element = objectNode.get(fieldName);
 				FilterOperator operator = findOperator(fieldName);
 				if (operator != null) {
@@ -223,7 +221,7 @@ public class JsonFilterSpecMapper {
 			}
 			return reader.readValue(jsonNode);
 		}
-		catch (IOException e) {
+		catch (JacksonException e) {
 			throw new ParametersDeserializationException("failed to parse value " + jsonNode + " to type " + valueType);
 		}
 	}
@@ -258,7 +256,7 @@ public class JsonFilterSpecMapper {
 			String text = context.getObjectMapper().writer().writeValueAsString(jsonNode);
 			throw new ParametersDeserializationException("failed to parse filter " + text);
 		}
-		catch (JsonProcessingException e) {
+		catch (JacksonException e) {
 			throw new IllegalStateException(e);
 		}
 	}

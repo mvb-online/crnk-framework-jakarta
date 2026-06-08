@@ -1,6 +1,6 @@
 package io.crnk.client;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import io.crnk.core.resource.meta.JsonLinksInformation;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.mapper.DefaultQuerySpecUrlMapper;

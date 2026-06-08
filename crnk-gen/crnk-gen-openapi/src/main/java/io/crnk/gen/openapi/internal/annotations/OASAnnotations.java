@@ -1,8 +1,8 @@
 package io.crnk.gen.openapi.internal.annotations;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.gen.openapi.internal.OASGenerator;
 import io.crnk.gen.openapi.internal.OASMergeUtil;
 import io.crnk.meta.model.MetaAttribute;

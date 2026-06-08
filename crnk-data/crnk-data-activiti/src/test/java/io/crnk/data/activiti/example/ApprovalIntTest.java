@@ -1,6 +1,5 @@
 package io.crnk.data.activiti.example;
 
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import io.crnk.client.CrnkClient;
 import io.crnk.client.http.HttpAdapter;
 import io.crnk.core.queryspec.FilterOperator;
@@ -50,7 +49,7 @@ public class ApprovalIntTest extends JerseyTest {
         super.setUp();
 
         client = new CrnkClient(getBaseUri().toString());
-        client.getObjectMapper().registerModule(new JavaTimeModule());
+        // JavaTimeModule is auto-registered in Jackson 3
 
         HttpAdapter httpAdapter = client.getHttpAdapter();
         httpAdapter.setReceiveTimeout(10000, TimeUnit.SECONDS);

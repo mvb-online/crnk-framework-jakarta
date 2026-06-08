@@ -3,7 +3,7 @@ package io.crnk.reactive;
 import java.io.IOException;
 import java.util.List;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import io.crnk.core.engine.document.Document;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.document.Resource;
@@ -82,7 +82,7 @@ public class ReactiveRequestProcessingTest extends ReactiveTestBase {
 		Assert.assertNotNull(resource.getLinks().get("value"));
 	}
 
-	private String createRequestBody(String name) throws JsonProcessingException {
+	private String createRequestBody(String name) throws JacksonException {
 		ReactiveTask task = new ReactiveTask();
 		task.setId(1L);
 		task.setName(name);

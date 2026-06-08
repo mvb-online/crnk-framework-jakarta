@@ -1,7 +1,8 @@
 package io.crnk.core.engine.internal.jackson;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.resource.links.*;
 import org.junit.Assert;
 import org.junit.Before;
@@ -37,8 +38,8 @@ public class LinksInformationSerializerTest {
 
 	/*@Test
 	public void testSerialization() throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(JacksonModule.createJacksonModule());
+		ObjectMapper mapper = JsonMapper.builder().build();
+		mapper = mapper.rebuild().addModule(JacksonModule.createJacksonModule()).build();
 
 		String serialized = mapper.writeValueAsString(selfLink);
 		String expected = createSingleLinkJson(LINK, "self", selfLink.getSelf().getHref());
@@ -57,8 +58,8 @@ public class LinksInformationSerializerTest {
 
 	@Test
 	public void testObjectLinkSerialization() throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(JacksonModule.createJacksonModule(true));
+		ObjectMapper mapper = JsonMapper.builder().build();
+		mapper = mapper.rebuild().addModule(JacksonModule.createJacksonModule(true)).build();
 
 		String serialized = mapper.writeValueAsString(selfLink);
 		String expected = createSingleLinkJson(OBJECT_LINK, "self", selfLink.getSelf().getHref());

@@ -1,8 +1,9 @@
 package io.crnk.core.engine.internal.jackson;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.PropertyNamingStrategies;
 import io.crnk.core.engine.information.bean.BeanAttributeInformation;
 import io.crnk.core.engine.information.bean.BeanInformation;
 import io.crnk.core.engine.information.resource.ResourceInformationProviderContext;
@@ -31,8 +32,7 @@ public class JacksonResourceFieldInformationProviderNamingTest {
 
 	@Before
 	public void setUp() {
-		objectMapper = new ObjectMapper();
-
+		objectMapper = JsonMapper.builder().build();
 		context = Mockito.mock(ResourceInformationProviderContext.class);
 		Mockito.when(context.getObjectMapper()).thenReturn(objectMapper);
 
@@ -106,7 +106,8 @@ public class JacksonResourceFieldInformationProviderNamingTest {
 
 	@Test
 	public void onMethodNameWithNamingStrategyShouldReturnModifiedName() throws Exception {
-		objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+		objectMapper = objectMapper.rebuild().propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE).build();
+		Mockito.when(context.getObjectMapper()).thenReturn(objectMapper);
 		sut = new JacksonResourceFieldInformationProvider();
 		sut.init(context);
 		Method method = TestClass.class.getDeclaredMethod("getAccessorField");
@@ -119,7 +120,8 @@ public class JacksonResourceFieldInformationProviderNamingTest {
 
 	@Test
 	public void onFieldNameWithNamingStrategyShouldReturnModifiedName() throws Exception {
-		objectMapper.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
+		objectMapper = objectMapper.rebuild().propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE).build();
+		Mockito.when(context.getObjectMapper()).thenReturn(objectMapper);
 		sut = new JacksonResourceFieldInformationProvider();
 		sut.init(context);
 		Field field = TestClass.class.getDeclaredField("namingStrategyTest");

@@ -92,11 +92,10 @@ gradle.beforeProject { Project project ->
 				dependencies {
 					implementation "org.springframework.boot:spring-boot-starter-classic:$SPRING_BOOT_VERSION"
 					testImplementation "org.springframework.boot:spring-boot-starter-test-classic:$SPRING_BOOT_VERSION"
-					implementation "org.springframework.boot:spring-boot-jackson2:$SPRING_BOOT_VERSION"
 					testRuntimeOnly "org.junit.platform:junit-platform-launcher:$JUNIT_PLATFORM_VERSION"
 					testImplementation group: 'junit', name: 'junit', version: '4.13.2'
 					testImplementation group: 'org.mockito', name: 'mockito-core', version: '5.5.0'
-					testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.24.2'
+					testImplementation "org.assertj:assertj-core:$ASSERTJ_CORE_VERSION"
 					api group: 'jakarta.annotation', name: 'jakarta.annotation-api', version: '2.1.1'
 					api group: 'jakarta.xml.bind', name: 'jakarta.xml.bind-api', version: '4.0.1'
 				}
@@ -124,12 +123,10 @@ gradle.beforeProject { Project project ->
 						mavenBom "org.glassfish.jersey:jersey-bom:$JERSEY_VERSION"
 					}
 					dependencies {
-						dependency 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.4'
-						dependency 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.4'
-						dependency 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:2.15.4'
-						dependency 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:2.15.4'
-						dependency 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-base:2.15.4'
-						dependency 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.4'
+						dependency "tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$JACKSON_VERSION"
+						dependency "tools.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:$JACKSON_VERSION"
+						dependency "tools.jackson.jakarta.rs:jackson-jakarta-rs-base:$JACKSON_VERSION"
+						dependency "tools.jackson.module:jackson-module-jakarta-xmlbind-annotations:$JACKSON_VERSION"
 
 						dependency 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.1'
 

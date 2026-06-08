@@ -465,7 +465,7 @@
                 <annotation name="Autowired" qualified="org.springframework.beans.factory.annotation.Autowired"/>
             </field>
             <field name="objectMapper" qualified="io.crnk.example.service.TestDataLoader.objectMapper" scope="private" volatile="false" transient="false" static="false" final="false">
-                <type qualified="com.fasterxml.jackson.databind.ObjectMapper"/>
+                <type qualified="tools.jackson.databind.ObjectMapper"/>
                 <annotation name="Autowired" qualified="org.springframework.beans.factory.annotation.Autowired"/>
             </field>
             <field name="voteRepository" qualified="io.crnk.example.service.TestDataLoader.voteRepository" scope="private" volatile="false" transient="false" static="false" final="false">

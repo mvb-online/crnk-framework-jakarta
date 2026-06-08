@@ -1,6 +1,7 @@
 package io.crnk.rs;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.information.InformationBuilder;
 import io.crnk.core.engine.information.repository.RepositoryAction;
@@ -56,7 +57,7 @@ public class JaxrsModuleTest {
         resourceInformationProvider
                 .init(new DefaultResourceInformationProviderContext(resourceInformationProvider,
                         new DefaultInformationBuilder(moduleRegistry.getTypeParser()), moduleRegistry.getTypeParser(),
-                        () -> new ObjectMapper()));
+                        () -> JsonMapper.builder().build()));
         context = new RepositoryInformationProviderContext() {
 
             @Override

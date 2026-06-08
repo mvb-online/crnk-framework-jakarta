@@ -3,7 +3,7 @@ package io.crnk.core.engine.internal.http;
 import java.util.Map;
 import java.util.Set;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import io.crnk.core.engine.dispatcher.RequestDispatcher;
 import io.crnk.core.engine.dispatcher.Response;
 import io.crnk.core.engine.document.Document;
@@ -124,7 +124,7 @@ public class JsonApiRequestProcessor extends JsonApiRequestProcessorBase impleme
             Document requestDocument;
             try {
                 requestDocument = getRequestDocument(requestContext);
-            } catch (JsonProcessingException e) {
+            } catch (JacksonException e) {
                 return resultFactory.just(getErrorResponse(e));
             }
             QueryContext queryContext = requestContext.getQueryContext();

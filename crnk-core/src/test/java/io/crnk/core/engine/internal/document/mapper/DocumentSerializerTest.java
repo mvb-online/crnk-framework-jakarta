@@ -1,10 +1,10 @@
 package io.crnk.core.engine.internal.document.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectReader;
+import tools.jackson.databind.ObjectWriter;
+import tools.jackson.databind.SerializationFeature;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.CoreTestContainer;
 import io.crnk.core.CoreTestModule;
 import io.crnk.core.engine.document.Document;
@@ -20,7 +20,7 @@ import org.junit.Test;
 import java.io.IOException;
 import java.util.Arrays;
 
-import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 
 public class DocumentSerializerTest {
 
@@ -37,7 +37,7 @@ public class DocumentSerializerTest {
 		container.boot();
 
 		objectMapper = container.getObjectMapper();
-		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+		objectMapper = objectMapper.rebuild().enable(SerializationFeature.INDENT_OUTPUT).build();
 
 		reader = objectMapper.reader().forType(Document.class);
 		writer = objectMapper.writer();

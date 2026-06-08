@@ -1,12 +1,13 @@
 package io.crnk.core.engine.document;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.ObjectWriter;
+import tools.jackson.databind.node.NullNode;
+import tools.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.node.StringNode;
 import io.crnk.core.utils.Nullable;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -25,7 +26,7 @@ public class DocumentTest {
 				.usingGetClass()
 				.suppress(Warning.NONFINAL_FIELDS)
 				// https://github.com/jqno/equalsverifier/issues/486
-				.withPrefabValues(JsonNode.class, NullNode.instance, new TextNode("foo"))
+				.withPrefabValues(JsonNode.class, NullNode.instance, StringNode.valueOf("foo"))
 				.withIgnoredFields("jsonapi") // ignore unused fields in equals and hashcode
 				.verify();
 	}
@@ -49,11 +50,11 @@ public class DocumentTest {
 	}
 
 	@Test
-	public void checkJsonApiServerInfoNotSerializedIfNull() throws JsonProcessingException {
+	public void checkJsonApiServerInfoNotSerializedIfNull() throws JacksonException {
 		Document document = new Document();
 		document.setJsonapi(null);
 		Assert.assertNull(document.getJsonapi());
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = JsonMapper.builder().build();
 		ObjectWriter writer = objectMapper.writerFor(Document.class);
 		String json = writer.writeValueAsString(document);
 		Assert.assertEquals("{}", json);
@@ -61,7 +62,7 @@ public class DocumentTest {
 
 	@Test
 	public void checkJsonApiServerInfoSerialized() throws IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = JsonMapper.builder().build();
 		ObjectWriter writer = objectMapper.writerFor(Document.class);
 
 		ObjectNode info = (ObjectNode) objectMapper.readTree("{\"a\" : \"b\"}");

@@ -1,10 +1,10 @@
 package io.crnk.gen.openapi.internal;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
-import com.fasterxml.jackson.databind.MapperFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.util.DefaultPrettyPrinter;
+import tools.jackson.databind.MapperFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
 import com.google.common.annotations.VisibleForTesting;
 import io.crnk.gen.openapi.OpenAPIGeneratorConfig;
 import io.crnk.gen.openapi.OutputFormat;
@@ -103,11 +103,13 @@ public class OASGenerator {
   static String generateOpenApiContent(OpenAPI openApi, OutputFormat outputFormat, Boolean sort) {
     if (sort) {
       ObjectMapper objectMapper = outputFormat.mapper();
-      objectMapper.enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS);
-      objectMapper.enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY);
+      objectMapper = objectMapper.rebuild()
+              .enable(SerializationFeature.ORDER_MAP_ENTRIES_BY_KEYS)
+              .enable(MapperFeature.SORT_PROPERTIES_ALPHABETICALLY)
+              .build();
       try {
         return objectMapper.writer(new DefaultPrettyPrinter()).writeValueAsString(openApi);
-      } catch (JsonProcessingException e) {
+      } catch (JacksonException e) {
         LOGGER.error("Sorting failed!");
         return outputFormat.pretty(openApi);
       }

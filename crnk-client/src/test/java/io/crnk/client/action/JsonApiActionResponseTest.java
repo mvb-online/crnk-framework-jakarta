@@ -107,6 +107,7 @@ public class JsonApiActionResponseTest extends AbstractClientTest {
         String url = getBaseUri() + "schedules/repositoryActionWithResourceResult?msg=hello&include=project";
         io.restassured.response.Response response = RestAssured.get(url);
         Assert.assertEquals(200, response.getStatusCode());
+        final String body = response.body().asString();
         response.then().assertThat().body("data.attributes.name", Matchers.equalTo("hello"));
 
         response.then().assertThat().body("included", Matchers.hasSize(1));

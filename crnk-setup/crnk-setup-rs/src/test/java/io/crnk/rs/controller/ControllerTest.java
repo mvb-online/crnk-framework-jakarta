@@ -14,7 +14,7 @@ import jakarta.ws.rs.core.Response;
 import java.io.IOException;
 
 import static io.crnk.rs.type.JsonApiMediaType.APPLICATION_JSON_API_TYPE;
-import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.assertj.core.api.Assertions.assertThat;
 
 public abstract class ControllerTest extends JerseyTestBase {

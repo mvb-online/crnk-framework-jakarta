@@ -1,7 +1,7 @@
 package io.crnk.data.jpa.model;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;

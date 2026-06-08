@@ -2,8 +2,8 @@ package io.crnk.core.engine.dispatcher;
 
 import java.util.Objects;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 import io.crnk.core.engine.document.Document;
 import io.crnk.core.engine.http.HttpResponse;
 import io.crnk.core.engine.http.HttpStatus;
@@ -59,7 +59,7 @@ public class Response {
 			try {
 				responseBody = objectMapper.writeValueAsString(getDocument());
 			}
-			catch (JsonProcessingException e) {
+			catch (JacksonException e) {
 				throw new IllegalStateException(e);
 			}
 			httpResponse.setBody(responseBody);

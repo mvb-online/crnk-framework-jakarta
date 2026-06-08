@@ -10,12 +10,12 @@ import java.util.Optional;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
-import com.fasterxml.jackson.databind.introspect.AnnotatedClass;
-import com.fasterxml.jackson.databind.introspect.AnnotatedField;
-import com.fasterxml.jackson.databind.introspect.AnnotatedMethod;
-import com.fasterxml.jackson.databind.introspect.AnnotationMap;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationConfig;
+import tools.jackson.databind.introspect.AnnotatedClass;
+import tools.jackson.databind.introspect.AnnotatedField;
+import tools.jackson.databind.introspect.AnnotatedMethod;
+import tools.jackson.databind.introspect.AnnotationMap;
 import io.crnk.core.engine.information.bean.BeanAttributeInformation;
 import io.crnk.core.engine.information.resource.ResourceFieldInformationProvider;
 import io.crnk.core.engine.information.resource.ResourceFieldInformationProviderBase;
@@ -121,16 +121,12 @@ public class JacksonResourceFieldInformationProvider extends ResourceFieldInform
 	}
 
 	private static AnnotationMap buildAnnotationMap(Annotation[] declaredAnnotations) {
-		AnnotationMap annotationMap = new AnnotationMap();
-		for (Annotation annotation : declaredAnnotations) {
-			annotationMap.add(annotation);
-		}
-		return annotationMap;
+		return AnnotationMap.of(java.util.Arrays.asList(declaredAnnotations));
 	}
 
 	protected Optional<String> getName(Field field) {
 		ObjectMapper objectMapper = context.getObjectMapper();
-		SerializationConfig serializationConfig = objectMapper.getSerializationConfig();
+		SerializationConfig serializationConfig = objectMapper.serializationConfig();
 
 		if (serializationConfig != null && serializationConfig.getPropertyNamingStrategy() != null) {
 			AnnotationMap annotationMap = buildAnnotationMap(field.getDeclaredAnnotations());
@@ -144,7 +140,7 @@ public class JacksonResourceFieldInformationProvider extends ResourceFieldInform
 
 	protected Optional<String> getName(Method method) {
 		ObjectMapper objectMapper = context.getObjectMapper();
-		SerializationConfig serializationConfig = objectMapper.getSerializationConfig();
+		SerializationConfig serializationConfig = objectMapper.serializationConfig();
 		if (serializationConfig != null && serializationConfig.getPropertyNamingStrategy() != null) {
 			String name = ClassUtils.getGetterFieldName(method);
 			Annotation[] declaredAnnotations = method.getDeclaredAnnotations();

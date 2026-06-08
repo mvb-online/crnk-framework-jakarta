@@ -8,12 +8,13 @@ dependencies {
     api 'io.leangen.geantyref:geantyref:2.0.1'
 	api 'org.slf4j:slf4j-api:2.0.9'
 	api 'org.slf4j:jcl-over-slf4j:2.0.9'
-	api 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.4'
+	api "tools.jackson.module:jackson-module-jakarta-xmlbind-annotations:$JACKSON_VERSION"
 	api 'jakarta.validation:jakarta.validation-api:3.0.2'
 	api 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.1'
 
 	testImplementation  'org.reflections:reflections'
-    testImplementation  'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
+    testImplementation  "net.javacrumbs.json-unit:json-unit-assertj:$JSON_UNIT_VERSION"
+	testImplementation 	'org.json:json:20260522'
     testImplementation  'com.jayway.jsonpath:json-path:2.2.0'
 	testImplementation  'com.google.guava:guava:31.1-jre'
 
@@ -24,10 +25,8 @@ dependencies {
 
 	testImplementation  "ch.qos.logback:logback-classic:$LOGBACK_VERSION"
     testImplementation  'org.mockito:mockito-core:5.5.0'
-    testImplementation  'org.assertj:assertj-core:2.2.0'
-    testImplementation  'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.4'
-	testImplementation  'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.4'
-	testImplementation  'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.4'
+    testImplementation  "org.assertj:assertj-core:$ASSERTJ_CORE_VERSION"
+	testImplementation  "tools.jackson.module:jackson-module-jakarta-xmlbind-annotations:$JACKSON_VERSION"
 
 	testImplementation  'nl.jqno.equalsverifier:equalsverifier:3.15.2'
 }

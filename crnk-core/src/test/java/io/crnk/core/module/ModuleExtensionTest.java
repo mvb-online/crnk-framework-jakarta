@@ -1,6 +1,7 @@
 package io.crnk.core.module;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.internal.CoreModule;
 import io.crnk.core.engine.internal.jackson.JacksonModule;
 import io.crnk.core.engine.internal.registry.ResourceRegistryImpl;
@@ -24,7 +25,7 @@ public class ModuleExtensionTest {
 
 	private ModuleExtensionTest.ExtensionProviderModule providerModule;
 
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private ObjectMapper objectMapper = JsonMapper.builder().build();
 
 	@Before
 	public void setup() {

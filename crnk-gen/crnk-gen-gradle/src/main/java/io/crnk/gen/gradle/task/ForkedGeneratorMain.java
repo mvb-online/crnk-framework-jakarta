@@ -1,6 +1,6 @@
 package io.crnk.gen.gradle.task;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.crnk.gen.base.GeneratorConfig;
 import io.crnk.gen.base.GeneratorModule;
 import io.crnk.gen.base.GeneratorModuleConfigBase;
@@ -21,7 +21,7 @@ public class ForkedGeneratorMain {
 
             GeneratorModule module = (GeneratorModule) moduleClass.newInstance();
 
-            ObjectMapper mapper = new ObjectMapper();
+            ObjectMapper mapper = JsonMapper.builder().build();
             GeneratorConfig config = mapper.readerFor(GeneratorConfig.class).readValue(configFile);
             GeneratorModuleConfigBase moduleConfig = mapper.readerFor(module.getConfig().getClass()).readValue(moduleConfigFile);
             module.setConfig(moduleConfig);

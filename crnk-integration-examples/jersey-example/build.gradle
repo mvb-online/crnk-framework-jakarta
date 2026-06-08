@@ -16,8 +16,8 @@ dependencies {
 	implementation 'jakarta.ws.rs:jakarta.ws.rs-api:3.1.0'
 	implementation 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 
-	implementation 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:2.15.4'
-	implementation 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-base:2.15.4'
+	implementation "tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$JACKSON_VERSION"
+	implementation "tools.jackson.jakarta.rs:jackson-jakarta-rs-base:$JACKSON_VERSION"
 	implementation "org.glassfish.jersey.containers:jersey-container-servlet:$JERSEY_VERSION"
 	implementation "org.glassfish.jersey.core:jersey-server:$JERSEY_VERSION"
 	implementation "org.glassfish.jersey.containers:jersey-container-grizzly2-http:$JERSEY_VERSION"

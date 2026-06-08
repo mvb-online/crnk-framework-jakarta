@@ -1,7 +1,8 @@
 package io.crnk.core.boot;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.CoreTestModule;
 import io.crnk.core.engine.dispatcher.RequestDispatcher;
 import io.crnk.core.engine.document.Document;
@@ -60,7 +61,7 @@ public class CrnkBootTest {
     @Test
     public void setObjectMapper() {
         CrnkBoot boot = new CrnkBoot();
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = JsonMapper.builder().build();
         boot.setObjectMapper(mapper);
         Assert.assertSame(mapper, boot.getObjectMapper());
     }

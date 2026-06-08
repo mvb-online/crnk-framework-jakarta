@@ -2,7 +2,8 @@ package io.crnk.core.queryspec;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.exception.BadRequestException;
 import org.junit.Assert;
 import org.junit.Test;
@@ -32,7 +33,7 @@ public class FilterOperatorTest {
 
 	@Test
 	public void testSerialization() throws IOException {
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = JsonMapper.builder().build();
 		String json = objectMapper.writerFor(FilterOperator.class).writeValueAsString(FilterOperator.EQ);
 		Assert.assertEquals("\"EQ\"", json);
 

@@ -4,9 +4,10 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.module.SimpleModule;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.document.ErrorDataBuilder;
 import io.crnk.core.engine.document.Relationship;
@@ -29,13 +30,13 @@ public class PlainTextSerializerTest {
 
 	@Before
 	public void setup() {
-		objectMapper = new ObjectMapper();
+		objectMapper = JsonMapper.builder().build();
 		SimpleModule simpleModule = new SimpleModule();
 		simpleModule.addSerializer(new PlainJsonDocumentSerializer());
 		simpleModule.addDeserializer(PlainJsonDocument.class, new PlainJsonDocumentDeserializer(objectMapper));
 		simpleModule.addSerializer(new ErrorDataSerializer());
 		simpleModule.addDeserializer(ErrorData.class, new ErrorDataDeserializer());
-		objectMapper.registerModule(simpleModule);
+		objectMapper = objectMapper.rebuild().addModule(simpleModule).build();
 	}
 
 	@Test

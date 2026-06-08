@@ -1,6 +1,7 @@
 package io.crnk.test.mock.dynamic;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.document.Resource;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.repository.UntypedRelationshipRepository;
@@ -8,7 +9,7 @@ import io.crnk.core.resource.list.DefaultResourceList;
 import io.crnk.core.resource.list.ResourceList;
 import org.junit.Assert;
 
-import java.io.IOException;
+import tools.jackson.core.JacksonException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -86,13 +87,13 @@ public class DynamicRelationshipRepository implements UntypedRelationshipReposit
 
 
     private Resource createResource() {
-        ObjectMapper mapper = new ObjectMapper();
+        ObjectMapper mapper = JsonMapper.builder().build();
         Resource resource = new Resource();
         resource.setId("john");
         resource.setType(resourceType);
         try {
             resource.getAttributes().put("value", mapper.readTree("\"doe\""));
-        } catch (IOException e) {
+        } catch (JacksonException e) {
             throw new IllegalArgumentException();
         }
         return resource;

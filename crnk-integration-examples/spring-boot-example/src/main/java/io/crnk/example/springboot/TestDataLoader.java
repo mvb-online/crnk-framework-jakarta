@@ -1,7 +1,7 @@
 package io.crnk.example.springboot;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
 import io.crnk.core.engine.transaction.TransactionRunner;
 import io.crnk.example.springboot.domain.model.Project;
 import io.crnk.example.springboot.domain.model.ScheduleEntity;
@@ -96,6 +96,8 @@ public class TestDataLoader {
 
 	@PostConstruct
 	public void configureJackson() {
-		objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+		// In Jackson 3, ObjectMapper is immutable. INDENT_OUTPUT should be
+		// configured via Spring Boot properties (spring.jackson.serialization.indent-output=true)
+		// or via a Jackson2ObjectMapperBuilderCustomizer bean.
 	}
 }

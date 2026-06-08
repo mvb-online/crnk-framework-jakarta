@@ -9,14 +9,14 @@ dependencies {
 	api 'jakarta.servlet:jakarta.servlet-api:6.0.0'
 	api 'jakarta.annotation:jakarta.annotation-api:2.1.1'
 	api 'jakarta.ws.rs:jakarta.ws.rs-api:3.1.0'
-	api 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:2.15.4'
+	api "tools.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:$JACKSON_VERSION"
 
 	testImplementation  project(':crnk-test')
 	testImplementation  project(':crnk-client')
 	testImplementation  'jakarta.servlet:jakarta.servlet-api:6.0.0'
 	testImplementation  'jakarta.annotation:jakarta.annotation-api:2.1.1'
-	testImplementation  'net.javacrumbs.json-unit:json-unit-fluent:1.5.3'
-	testImplementation 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:2.15.4'
+	testImplementation  "net.javacrumbs.json-unit:json-unit-assertj:$JSON_UNIT_VERSION"
+	testImplementation "tools.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:$JACKSON_VERSION"
 	testImplementation  'com.google.guava:guava:31.1-jre'
 
 }

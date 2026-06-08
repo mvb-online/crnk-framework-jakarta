@@ -1,8 +1,9 @@
 package io.crnk.core.queryspec.mapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.internal.utils.ClassUtils;
 import io.crnk.core.engine.internal.utils.PreconditionUtil;
@@ -28,7 +29,7 @@ import io.crnk.core.queryspec.pagingspec.PagingSpec;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.IOException;
+import tools.jackson.core.JacksonException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,7 +66,7 @@ public class DefaultQuerySpecUrlMapper
 
 	private JsonFilterSpecMapper jsonParser;
 
-	private ObjectMapper compactMapper = new ObjectMapper();
+	private ObjectMapper compactMapper = JsonMapper.builder().build();
 
 
 	public DefaultQuerySpecUrlMapper() {
@@ -304,7 +305,7 @@ public class DefaultQuerySpecUrlMapper
 			try {
 				// we keep it rather compact without white spaces (or any line separator) to avoid complex, encoded urls
 				json = compactMapper.writeValueAsString(jsonNode);
-			} catch (JsonProcessingException e) {
+			} catch (JacksonException e) {
 				throw new IllegalStateException(e);
 			}
 
@@ -471,7 +472,7 @@ public class DefaultQuerySpecUrlMapper
 				ObjectMapper objectMapper = context.getObjectMapper();
 				try {
 					return Optional.of(objectMapper.readTree(value));
-				} catch (IOException e) {
+				} catch (JacksonException e) {
 					throw new ParametersDeserializationException("failed to parse " + value, e);
 				}
 			}

@@ -1,6 +1,7 @@
 package io.crnk.core.resource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.information.resource.ResourceField;
 import io.crnk.core.engine.information.resource.ResourceInformation;
 import io.crnk.core.engine.information.resource.ResourceInformationProvider;
@@ -36,7 +37,7 @@ public class JsonApiRelationIdInformationProviderTest {
 
 	private final ResourceInformationProviderContext context =
 			new DefaultResourceInformationProviderContext(resourceInformationProvider,
-					new DefaultInformationBuilder(new TypeParser()), new TypeParser(), () -> new ObjectMapper());
+					new DefaultInformationBuilder(new TypeParser()), new TypeParser(), () -> JsonMapper.builder().build());
 
 	@Rule
 	public ExpectedException expectedException = ExpectedException.none();

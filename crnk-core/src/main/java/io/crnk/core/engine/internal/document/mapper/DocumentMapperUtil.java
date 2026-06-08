@@ -10,8 +10,8 @@ import java.util.Set;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.engine.document.Resource;
 import io.crnk.core.engine.document.ResourceIdentifier;
@@ -164,7 +164,7 @@ public class DocumentMapperUtil {
 			ObjectNode links = container.getLinks();
 			if (links != null) {
 				links.remove("self");
-				if (!links.fieldNames().hasNext()) {
+				if (links.propertyNames().isEmpty()) {
 					container.setLinks(null);
 				}
 			}

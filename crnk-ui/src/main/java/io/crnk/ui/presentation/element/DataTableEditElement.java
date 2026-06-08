@@ -1,6 +1,6 @@
 package io.crnk.ui.presentation.element;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.node.ObjectNode;
 
 public class DataTableEditElement extends PresentationElement {
 

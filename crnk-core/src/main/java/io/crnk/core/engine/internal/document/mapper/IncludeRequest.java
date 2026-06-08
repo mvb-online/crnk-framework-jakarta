@@ -1,7 +1,7 @@
 package io.crnk.core.engine.internal.document.mapper;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.engine.document.Document;
 import io.crnk.core.engine.document.Relationship;
 import io.crnk.core.engine.document.Resource;
@@ -204,7 +204,7 @@ public class IncludeRequest {
             if (meta != null) {
                 ObjectNode jsonNode = objectMapper.valueToTree(meta);
                 jsonNode.remove("totalResourceCount"); // get rid of this entirely
-                if (jsonNode.fieldNames().hasNext()) {
+                if (!jsonNode.propertyNames().isEmpty()) {
                     relationship.setMeta(jsonNode);
                 }
             }

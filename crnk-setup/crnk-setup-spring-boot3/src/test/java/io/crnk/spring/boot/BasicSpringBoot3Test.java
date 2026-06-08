@@ -1,13 +1,14 @@
 package io.crnk.spring.boot;
 
-import static net.javacrumbs.jsonunit.fluent.JsonFluentAssert.assertThatJson;
+import static net.javacrumbs.jsonunit.assertj.JsonAssertions.assertThatJson;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.io.Serializable;
 import jakarta.security.auth.message.config.AuthConfigFactory;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.client.CrnkClient;
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.document.Document;
@@ -47,7 +48,7 @@ import io.crnk.test.mock.models.Task;
 import io.crnk.test.mock.repository.ProjectRepository;
 import io.crnk.test.mock.repository.ScheduleRepositoryImpl;
 import io.crnk.test.mock.repository.TaskRepository;
-import net.javacrumbs.jsonunit.fluent.JsonFluentAssert;
+import net.javacrumbs.jsonunit.assertj.JsonFluentAssert;
 import org.apache.catalina.authenticator.jaspic.AuthConfigFactoryImpl;
 import org.junit.*;
 import org.junit.runner.RunWith;
@@ -299,8 +300,8 @@ public class BasicSpringBoot3Test {
 			assertEquals(HttpStatus.NOT_FOUND, e.getStatusCode());
 
 			String body = e.getResponseBodyAsString();
-			ObjectMapper mapper = new ObjectMapper();
-			mapper.registerModule(JacksonModule.createJacksonModule());
+			ObjectMapper mapper = JsonMapper.builder().build();
+			mapper = mapper.rebuild().addModule(JacksonModule.createJacksonModule()).build();
 			Document document = mapper.readerFor(Document.class).readValue(body);
 
 			Assert.assertEquals(1, document.getErrors().size());

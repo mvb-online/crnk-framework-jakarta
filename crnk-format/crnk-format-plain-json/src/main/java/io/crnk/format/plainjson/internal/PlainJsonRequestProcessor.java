@@ -2,8 +2,8 @@ package io.crnk.format.plainjson.internal;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 import io.crnk.core.engine.dispatcher.Response;
 import io.crnk.core.engine.document.Document;
 import io.crnk.core.engine.http.HttpHeaders;
@@ -58,19 +58,11 @@ public class PlainJsonRequestProcessor extends JsonApiRequestProcessor implement
 	}
 
 	@Override
-	protected Document getRequestDocument(HttpRequestContext requestContext) throws JsonProcessingException {
+	protected Document getRequestDocument(HttpRequestContext requestContext) {
 		byte[] requestBody = requestContext.getRequestBody();
 		if (requestBody != null && requestBody.length > 0) {
 			ObjectMapper objectMapper = moduleContext.getObjectMapper();
-			try {
-				return objectMapper.readerFor(PlainJsonDocument.class).readValue(requestBody);
-			}
-			catch (JsonProcessingException e) {
-				throw e;
-			}
-			catch (IOException e) {
-				throw new IllegalStateException(e);
-			}
+			return objectMapper.readerFor(PlainJsonDocument.class).readValue(requestBody);
 		}
 		return null;
 	}

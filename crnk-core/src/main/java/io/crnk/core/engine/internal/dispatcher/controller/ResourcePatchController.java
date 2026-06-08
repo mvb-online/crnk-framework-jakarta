@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 import io.crnk.core.engine.dispatcher.Response;
 import io.crnk.core.engine.document.Document;
 import io.crnk.core.engine.document.Resource;
@@ -169,7 +169,7 @@ public class ResourcePatchController extends ResourceUpsert {
 		return (Map<K, V>) (value != null ? value : Collections.emptyMap());
 	}
 
-	private String extractAttributesFromResourceAsJson(Resource resource) throws IOException {
+	private String extractAttributesFromResourceAsJson(Resource resource) {
 
 		JsonApiResponse response = new JsonApiResponse();
 		response.setEntity(resource);

@@ -1,6 +1,6 @@
 package io.crnk.core.module;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.crnk.core.engine.dispatcher.RequestDispatcher;
 import io.crnk.core.engine.error.ExceptionMapper;
 import io.crnk.core.engine.filter.DocumentFilter;
@@ -270,7 +270,7 @@ public class ModuleRegistry {
 	/**
 	 * @return all Jackson modules registered by modules.
 	 */
-	public List<com.fasterxml.jackson.databind.Module> getJacksonModules() {
+	public List<tools.jackson.databind.JacksonModule> getJacksonModules() {
 		return aggregatedModule.getJacksonModules();
 	}
 
@@ -420,10 +420,17 @@ public class ModuleRegistry {
 		PreconditionUtil.verifyEquals(InitializedState.NOT_INITIALIZED, initializedState, "already initialized");
 		this.initializedState = InitializedState.INITIALIZING;
 		this.objectMapper = objectMapper;
-		this.objectMapper.registerModules(getJacksonModules());
-		typeParser.setObjectMapper(objectMapper);
 
 		initializeModules();
+
+		// In Jackson 3, ObjectMapper is immutable — rebuild with collected modules
+		List<tools.jackson.databind.JacksonModule> jacksonModules = getJacksonModules();
+		if (!jacksonModules.isEmpty()) {
+			this.objectMapper = this.objectMapper.rebuild()
+					.addModules(jacksonModules.toArray(new tools.jackson.databind.JacksonModule[0]))
+					.build();
+		}
+		typeParser.setObjectMapper(this.objectMapper);
 
 		if (isServer) {
 			applyRepositoryRegistrations();
@@ -902,7 +909,7 @@ public class ModuleRegistry {
 		}
 
 		@Override
-		public void addJacksonModule(com.fasterxml.jackson.databind.Module module) {
+		public void addJacksonModule(tools.jackson.databind.JacksonModule module) {
 			LOGGER.debug("adding jackson module {}", module);
 			checkState(InitializedState.NOT_INITIALIZED, InitializedState.NOT_INITIALIZED);
 			aggregatedModule.addJacksonModule(module);

@@ -1,12 +1,11 @@
 package io.crnk.core.engine.parser;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.node.NumericNode;
-import com.fasterxml.jackson.databind.node.TextNode;
-
-import java.io.IOException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectReader;
+import tools.jackson.databind.node.NumericNode;
+import tools.jackson.databind.node.StringNode;
 
 public class JacksonStringMapper<T> implements StringMapper<T> {
 
@@ -22,10 +21,10 @@ public class JacksonStringMapper<T> implements StringMapper<T> {
 
 	@Override
 	public T parse(String input) {
-		JsonNode node = new TextNode(input);
+		JsonNode node = StringNode.valueOf(input);
 		try {
 			return reader.readValue(node);
-		} catch (IOException e) {
+		} catch (JacksonException e) {
 			throw new ParserException("Cannot parse " + input, e);
 		}
 	}
@@ -34,7 +33,7 @@ public class JacksonStringMapper<T> implements StringMapper<T> {
 	public String toString(T input) {
 		JsonNode jsonNode = mapper.valueToTree(input);
 
-		if (jsonNode instanceof TextNode) {
+		if (jsonNode instanceof StringNode) {
 			return jsonNode.textValue();
 		}
 		if (jsonNode instanceof NumericNode) {

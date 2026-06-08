@@ -16,5 +16,5 @@ dependencies {
 
 	testImplementation  "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"
 	testImplementation  "org.springframework.boot:spring-boot-starter-test:$SPRING_BOOT_VERSION"
-	testImplementation  'net.javacrumbs.json-unit:json-unit:1.5.5'
+	testImplementation  "net.javacrumbs.json-unit:json-unit:$JSON_UNIT_VERSION"
 }

@@ -13,7 +13,7 @@ dependencies {
 	api "org.glassfish.jersey.core:jersey-server:$JERSEY_VERSION"
 	api "org.glassfish.jersey.media:jersey-media-json-jackson:$JERSEY_VERSION"
 	api "com.squareup.okhttp3:okhttp:$OKHTTP_VERSION"
-	api 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:2.15.4'
+	api "tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$JACKSON_VERSION"
 
     testImplementation  project(':crnk-setup:crnk-setup-rs')
     testImplementation  project(':crnk-test')

@@ -27,7 +27,7 @@ dependencies {
 	testImplementation  project(':crnk-test')
 	testImplementation  'jakarta.el:jakarta.el-api:5.0.1'
 	testImplementation  'org.glassfish:jakarta.el:5.0.0-M1'
-	testImplementation  'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:2.15.4'
+	testImplementation  "tools.jackson.jakarta.rs:jackson-jakarta-rs-xml-provider:$JACKSON_VERSION"
 
 	testImplementation  "org.springframework.boot:spring-boot-starter-data-jpa:$SPRING_BOOT_VERSION"
 	testImplementation  "org.springframework.boot:spring-boot-starter-web:$SPRING_BOOT_VERSION"

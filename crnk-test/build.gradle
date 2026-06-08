@@ -13,12 +13,10 @@ dependencies {
 	api "org.junit.vintage:junit-vintage-engine:$JUNIT_VERSION"
 
 	api 'org.mockito:mockito-core:5.5.0'
-	api 'org.assertj:assertj-core:3.9.1'
+	api "org.assertj:assertj-core:$ASSERTJ_CORE_VERSION"
 
-	api 'com.fasterxml.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:2.15.4'
-	api 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.15.4'
-	api 'com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.15.4'
-	api 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.4'
+	api "tools.jackson.jakarta.rs:jackson-jakarta-rs-json-provider:$JACKSON_VERSION"
+	api "tools.jackson.module:jackson-module-jakarta-xmlbind-annotations:$JACKSON_VERSION"
 	api "org.eclipse.jetty:jetty-server:$JETTY_VERSION"
 	api "org.eclipse.jetty:jetty-security:$JETTY_VERSION"
 

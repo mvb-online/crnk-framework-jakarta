@@ -1,6 +1,7 @@
 package io.crnk.core.engine.internal.resource;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.document.Resource;
 import io.crnk.core.engine.document.ResourceIdentifier;
 import io.crnk.core.engine.information.resource.ResourceFieldType;
@@ -21,7 +22,7 @@ public class RawResourceFieldAccessorTest {
 	public void setup() throws IOException {
 		String json = "{'id': 'someId', 'type': 'test', 'attributes': {'name': 'Doe'},'meta': {'name': 'someMeta'},'links': {'name': 'someLink'}, 'relationships': {'address': {'data': {'id':'zurich', 'type' : 'address'}}}}".replace('\'', '\"');
 
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = JsonMapper.builder().build();
 		resource = mapper.readerFor(Resource.class).readValue(json);
 	}
 

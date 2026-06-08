@@ -1,8 +1,8 @@
 package io.crnk.core.engine.internal.document.mapper;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.cfg.DateTimeFeature;
 import io.crnk.core.CoreTestContainer;
 import io.crnk.core.CoreTestModule;
 import io.crnk.core.engine.filter.ResourceFilterDirectory;
@@ -43,8 +43,9 @@ public abstract class AbstractDocumentMapperTest {
         container.boot();
 
         objectMapper = container.getBoot().getObjectMapper();
-		objectMapper.findAndRegisterModules();
-		objectMapper.configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
+		objectMapper = objectMapper.rebuild()
+				.disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+				.build();
 
         mapper = container.getBoot().getDocumentMapper();
         resourceFilterDirectory = container.getBoot().getModuleRegistry().getContext().getResourceFilterDirectory();

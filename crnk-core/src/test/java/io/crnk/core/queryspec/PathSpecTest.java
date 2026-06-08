@@ -1,6 +1,7 @@
 package io.crnk.core.queryspec;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -11,7 +12,7 @@ public class PathSpecTest {
 	@Test
 	public void testSerialization() throws IOException {
 		PathSpec pathSpec = PathSpec.of("a.b.c");
-		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapper = JsonMapper.builder().build();
 		String json = objectMapper.writerFor(PathSpec.class).writeValueAsString(pathSpec);
 		Assert.assertEquals("\"a.b.c\"", json);
 

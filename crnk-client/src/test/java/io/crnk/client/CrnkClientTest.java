@@ -1,6 +1,7 @@
 package io.crnk.client;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.queryspec.QuerySpec;
 import io.crnk.core.queryspec.pagingspec.NumberSizePagingBehavior;
 import io.crnk.core.repository.ResourceRepository;
@@ -21,7 +22,7 @@ public class CrnkClientTest extends AbstractClientTest {
 
     @Test
     public void testSetObjectMapper() {
-        ObjectMapper myObjectMapper = new ObjectMapper();
+        ObjectMapper myObjectMapper = JsonMapper.builder().build();
         client = new CrnkClient(getBaseUri().toString()) {
             protected ObjectMapper createDefaultObjectMapper() {
                 throw new IllegalStateException("this should not happer");

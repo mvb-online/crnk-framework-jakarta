@@ -3,7 +3,8 @@ package io.crnk.core.resource;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.boot.CrnkBoot;
 import io.crnk.core.engine.information.resource.EmbeddableInformation;
 import io.crnk.core.engine.information.resource.ResourceField;
@@ -74,7 +75,7 @@ public class DefaultResourceInformationProviderTest {
 
     private final ResourceInformationProviderContext context =
             new DefaultResourceInformationProviderContext(resourceInformationProvider,
-                    new DefaultInformationBuilder(new TypeParser()), new TypeParser(), () -> new ObjectMapper());
+                    new DefaultInformationBuilder(new TypeParser()), new TypeParser(), () -> JsonMapper.builder().build());
 
     @Rule
     public ExpectedException expectedException = ExpectedException.none();

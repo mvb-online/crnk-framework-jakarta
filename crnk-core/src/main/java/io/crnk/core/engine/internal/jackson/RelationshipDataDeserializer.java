@@ -1,22 +1,21 @@
 package io.crnk.core.engine.internal.jackson;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.JsonToken;
-import com.fasterxml.jackson.databind.DeserializationContext;
-import com.fasterxml.jackson.databind.JsonDeserializer;
-import com.fasterxml.jackson.databind.JsonMappingException;
+import tools.jackson.core.JacksonException;
+import tools.jackson.core.JsonParser;
+import tools.jackson.core.JsonToken;
+import tools.jackson.databind.DeserializationContext;
+import tools.jackson.databind.ValueDeserializer;
 import io.crnk.core.engine.document.ResourceIdentifier;
 import io.crnk.core.engine.internal.utils.PreconditionUtil;
 import io.crnk.core.utils.Nullable;
 
-import java.io.IOException;
 import java.util.Arrays;
 
-public class RelationshipDataDeserializer extends JsonDeserializer<Nullable<Object>> {
+public class RelationshipDataDeserializer extends ValueDeserializer<Nullable<Object>> {
 
 	@Override
-	public Nullable<Object> deserialize(JsonParser jp, DeserializationContext context) throws IOException {
-		JsonToken currentToken = jp.getCurrentToken();
+	public Nullable<Object> deserialize(JsonParser jp, DeserializationContext context) throws JacksonException {
+		JsonToken currentToken = jp.currentToken();
 		if (currentToken == JsonToken.START_ARRAY) {
 			ResourceIdentifier[] resources = jp.readValueAs(ResourceIdentifier[].class);
 			return Nullable.of(Arrays.asList(resources));

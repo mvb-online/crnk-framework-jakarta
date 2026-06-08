@@ -40,7 +40,7 @@ dependencies {
 	implementation files(('../../crnk-cdi/build/classes/main'))
 
 	implementation 'org.slf4j:slf4j-api:2.0.9'
-	implementation 'com.fasterxml.jackson.module:jackson-module-jakarta-xmlbind-annotations:2.15.4'
+	implementation "tools.jackson.module:jackson-module-jakarta-xmlbind-annotations:$JACKSON_VERSION"
 
 	integrationTestCompile 'junit:junit:4.12'
 	integrationTestCompile 'commons-io:commons-io:2.14.0'

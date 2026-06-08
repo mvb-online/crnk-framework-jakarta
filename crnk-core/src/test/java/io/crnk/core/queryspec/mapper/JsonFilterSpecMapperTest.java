@@ -1,10 +1,9 @@
 package io.crnk.core.queryspec.mapper;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.cfg.DateTimeFeature;
 import io.crnk.core.CoreTestContainer;
 import io.crnk.core.CoreTestModule;
 import io.crnk.core.engine.information.resource.ResourceInformation;
@@ -64,8 +63,9 @@ public class JsonFilterSpecMapperTest {
         pathResolver.init(urlContext);
 
         objectMapper = container.getObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        objectMapper = objectMapper.rebuild()
+                .disable(DateTimeFeature.WRITE_DATES_AS_TIMESTAMPS)
+                .build();
 
         mapper = new JsonFilterSpecMapper(urlContext, supportedOperators, FilterOperator.EQ, pathResolver);
     }
@@ -285,7 +285,7 @@ public class JsonFilterSpecMapperTest {
 		Assert.assertEquals("{\"OR\":[{\"project\":{\"name\":\"test\"}},{\"project\":{\"description\":\"test test\"}}]}", jsonNode.toString());
 	}
 
-    private void checkNodeEquals(JsonNode expected, JsonNode actual) throws JsonProcessingException {
+    private void checkNodeEquals(JsonNode expected, JsonNode actual) throws JacksonException {
         String strExpected = objectMapper.writeValueAsString(expected);
         String strActual = objectMapper.writeValueAsString(actual);
         Assert.assertEquals(strExpected, strActual);

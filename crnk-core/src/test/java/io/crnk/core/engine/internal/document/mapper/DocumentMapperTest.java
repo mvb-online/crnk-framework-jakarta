@@ -13,11 +13,11 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.fasterxml.jackson.databind.node.TextNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectWriter;
+import tools.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.node.StringNode;
 import io.crnk.core.engine.document.Document;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.document.Relationship;
@@ -188,7 +188,7 @@ public class DocumentMapperTest extends AbstractDocumentMapperTest {
 
 
 	@Test
-	public void testJsonIncludeNonEmptyOnId() throws JsonProcessingException {
+	public void testJsonIncludeNonEmptyOnId() throws JacksonException {
 		Project project = new Project();
 		project.setName("someProject");
 
@@ -210,7 +210,7 @@ public class DocumentMapperTest extends AbstractDocumentMapperTest {
 	}
 
 	@Test
-	public void testJsonIncludeNonEmptyIgnoresNull() throws JsonProcessingException {
+	public void testJsonIncludeNonEmptyIgnoresNull() throws JacksonException {
 		// note that desc and followup project make use of @JsonInclude.Include.NON_EMPTY
 		Schedule schedule = new Schedule();
 		schedule.setDesc(null);
@@ -229,7 +229,7 @@ public class DocumentMapperTest extends AbstractDocumentMapperTest {
 
 
 	@Test
-	public void testJsonIncludeNonEmptyIgnoresEmptyList() throws JsonProcessingException {
+	public void testJsonIncludeNonEmptyIgnoresEmptyList() throws JacksonException {
 		// makes use of @JsonInclude.Include.NON_EMPTY
 		Schedule schedule = new Schedule();
 		schedule.setKeywords(Collections.emptyList());
@@ -247,7 +247,7 @@ public class DocumentMapperTest extends AbstractDocumentMapperTest {
 	}
 
 	@Test
-	public void testJsonIncludeNonEmptyWritesNonEmpty() throws JsonProcessingException {
+	public void testJsonIncludeNonEmptyWritesNonEmpty() throws JacksonException {
 		Project project = new Project();
 		project.setId(12L);
 

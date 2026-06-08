@@ -1,6 +1,6 @@
 package io.crnk.core.engine.http;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+import tools.jackson.core.JacksonException;
 import io.crnk.core.CoreTestContainer;
 import io.crnk.core.CoreTestModule;
 import io.crnk.core.engine.document.Document;
@@ -183,7 +183,7 @@ public class JsonApiRequestProcessorTest {
     }
 
 
-    private String createRequestBody(String name) throws JsonProcessingException {
+    private String createRequestBody(String name) throws JacksonException {
         Task task = new Task();
         task.setId(1L);
         task.setName(name);

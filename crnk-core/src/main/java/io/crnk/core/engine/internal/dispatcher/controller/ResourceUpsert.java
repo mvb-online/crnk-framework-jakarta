@@ -1,10 +1,11 @@
 package io.crnk.core.engine.internal.dispatcher.controller;
 
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectReader;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.JavaType;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectReader;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.engine.document.Document;
 import io.crnk.core.engine.document.Relationship;
@@ -113,7 +114,7 @@ public abstract class ResourceUpsert extends ResourceIncludeField {
 			try {
 				Object links = linksMapper.readValue(linksNode);
 				linksField.getAccessor().setValue(instance, links);
-			} catch (IOException e) {
+			} catch (JacksonException e) {
 				throw newBodyException("failed to parse links information", e);
 			}
 		}
@@ -130,13 +131,13 @@ public abstract class ResourceUpsert extends ResourceIncludeField {
 			try {
 				Object meta = metaMapper.readValue(metaNode);
 				metaField.getAccessor().setValue(instance, meta);
-			} catch (IOException e) {
+			} catch (JacksonException e) {
 				throw newBodyException("failed to parse links information", e);
 			}
 		}
 	}
 
-	protected RuntimeException newBodyException(String message, IOException e) {
+	protected RuntimeException newBodyException(String message, Exception e) {
 		throw new RequestBodyException(message, e);
 	}
 
@@ -190,7 +191,7 @@ public abstract class ResourceUpsert extends ResourceIncludeField {
 				} else if(!isClient() && !resourceInformation.getAllowUnknownAttributes()) {
 					throw new BadRequestException(String.format("attribute %s not found", attributeJsonName));
 				}
-			} catch (IOException e) {
+			} catch (JacksonException e) {
 				throw new ResourceException(
 						String.format("Exception while setting %s.%s=%s due to %s", instance, attributeJsonName, valueNode,
 								e.getMessage()), e);

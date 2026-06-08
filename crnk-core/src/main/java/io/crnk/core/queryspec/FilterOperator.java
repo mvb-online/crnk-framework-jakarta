@@ -3,8 +3,8 @@ package io.crnk.core.queryspec;
 import java.lang.reflect.Type;
 import java.util.Collection;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import tools.jackson.databind.annotation.JsonSerialize;
+import tools.jackson.databind.ser.std.ToStringSerializer;
 import io.crnk.core.engine.internal.utils.CompareUtils;
 import io.crnk.core.exception.BadRequestException;
 import io.crnk.core.queryspec.mapper.QueryParameter;

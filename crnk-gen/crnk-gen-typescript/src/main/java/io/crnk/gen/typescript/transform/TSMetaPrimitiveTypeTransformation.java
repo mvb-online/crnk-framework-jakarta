@@ -1,8 +1,8 @@
 package io.crnk.gen.typescript.transform;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ArrayNode;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.gen.typescript.model.TSAny;
 import io.crnk.gen.typescript.model.TSElement;
 import io.crnk.gen.typescript.model.TSPrimitiveType;

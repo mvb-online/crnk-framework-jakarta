@@ -1,17 +1,17 @@
 package io.crnk.format.plainjson.internal;
 
-import java.io.IOException;
+import tools.jackson.core.JacksonException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import com.fasterxml.jackson.core.JsonGenerator;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.JsonSerializer;
-import com.fasterxml.jackson.databind.SerializerProvider;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.core.JsonGenerator;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ValueSerializer;
+import tools.jackson.databind.SerializationContext;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.document.Relationship;
 import io.crnk.core.engine.document.Resource;
@@ -21,12 +21,12 @@ import io.crnk.core.utils.Nullable;
 /**
  * Serializes top-level Errors object.
  */
-public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocument> {
+public class PlainJsonDocumentSerializer extends ValueSerializer<PlainJsonDocument> {
 
 
 	@Override
-	public void serialize(PlainJsonDocument document, JsonGenerator gen, SerializerProvider serializerProvider)
-			throws IOException {
+	public void serialize(PlainJsonDocument document, JsonGenerator gen, SerializationContext serializerProvider)
+			throws JacksonException {
 		gen.writeStartObject();
 
 		writeLinks(gen, document.getLinks(), serializerProvider);
@@ -39,8 +39,8 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 	}
 
 	private void writeData(JsonGenerator gen, Nullable<Object> nullableData, List<Resource> included,
-			SerializerProvider serializerProvider)
-			throws IOException {
+			SerializationContext serializerProvider)
+			throws JacksonException {
 		if (nullableData.isPresent()) {
 
 
@@ -51,7 +51,7 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 				included.stream().forEach(resource -> resourceMap.put(resource.toIdentifier(), resource));
 			}
 
-			gen.writeFieldName("data");
+			gen.writeName("data");
 			Object data = nullableData.get();
 			if (data instanceof Collection) {
 				Collection<ResourceIdentifier> resources = ((Collection<ResourceIdentifier>) data);
@@ -78,15 +78,15 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 		}
 	}
 
-	private void writeJsonApi(JsonGenerator gen, ObjectNode jsonapi, SerializerProvider serializerProvider) throws IOException {
+	private void writeJsonApi(JsonGenerator gen, ObjectNode jsonapi, SerializationContext serializerProvider) throws JacksonException {
 		if (jsonapi != null && !jsonapi.isEmpty(serializerProvider)) {
-			gen.writeObjectField("jsonapi", jsonapi);
+			gen.writePOJOProperty("jsonapi", jsonapi);
 		}
 	}
 
-	private void writeErrors(JsonGenerator gen, List<ErrorData> errors) throws IOException {
+	private void writeErrors(JsonGenerator gen, List<ErrorData> errors) throws JacksonException {
 		if (errors != null && !errors.isEmpty()) {
-			gen.writeObjectField("errors", errors);
+			gen.writePOJOProperty("errors", errors);
 		}
 	}
 
@@ -94,7 +94,7 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 	private void writeResources(JsonGenerator gen, Collection<ResourceIdentifier> resources,
 			Map<ResourceIdentifier, Resource> resourceMap,
 			Stack<ResourceIdentifier> inclusionStack,
-			SerializerProvider serializerProvider) throws IOException {
+			SerializationContext serializerProvider) throws JacksonException {
 
 
 		gen.writeStartArray();
@@ -107,7 +107,7 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 
 	private void writeResource(JsonGenerator gen, ResourceIdentifier resourceId,
 			Map<ResourceIdentifier, Resource> resourceMap, Stack<ResourceIdentifier> inclusionStack,
-			SerializerProvider serializerProvider) throws IOException {
+			SerializationContext serializerProvider) throws JacksonException {
 
 		if (resourceId.getId() != null) {
 			// new resources do not have an ID
@@ -116,9 +116,9 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 
 		gen.writeStartObject();
 		if (resourceId.getId() != null) {
-			gen.writeStringField("id", resourceId.getId());
+			gen.writeStringProperty("id", resourceId.getId());
 		}
-		gen.writeStringField("type", resourceId.getType());
+		gen.writeStringProperty("type", resourceId.getType());
 
 		if (resourceId instanceof Resource) {
 			Resource resource = (Resource) resourceId;
@@ -136,7 +136,7 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 	private void writeRelationships(JsonGenerator gen, Map<String, Relationship> relationships,
 			Map<ResourceIdentifier, Resource> resourceMap,
 			Stack<ResourceIdentifier> inclusionStack,
-			SerializerProvider serializerProvider) throws IOException {
+			SerializationContext serializerProvider) throws JacksonException {
 
 		for (Map.Entry<String, Relationship> entry : relationships.entrySet()) {
 			writeRelationship(gen, entry.getKey(), entry.getValue(), resourceMap, inclusionStack, serializerProvider);
@@ -146,14 +146,14 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 	private void writeRelationship(JsonGenerator gen, String name, Relationship relationship,
 			Map<ResourceIdentifier, Resource> resourceMap,
 			Stack<ResourceIdentifier> inclusionStack,
-			SerializerProvider serializerProvider) throws IOException {
-		gen.writeObjectFieldStart(name);
+			SerializationContext serializerProvider) throws JacksonException {
+		gen.writeObjectPropertyStart(name);
 
 		writeLinks(gen, relationship.getLinks(), serializerProvider);
 		writeMeta(gen, relationship.getMeta(), serializerProvider);
 
 		if (relationship.getData().isPresent()) {
-			gen.writeFieldName("data");
+			gen.writeName("data");
 			if (relationship.getData().get() instanceof Collection) {
 				writeRelationshipData(gen, relationship.getCollectionData().get(), resourceMap, inclusionStack,
 						serializerProvider);
@@ -168,20 +168,20 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 	private void writeRelationshipData(JsonGenerator gen, ResourceIdentifier resourceId,
 			Map<ResourceIdentifier, Resource> resourceMap,
 			Stack<ResourceIdentifier> inclusionStack,
-			SerializerProvider serializerProvider) throws IOException {
+			SerializationContext serializerProvider) throws JacksonException {
 
 		Resource resource = resourceMap.get(resourceId);
 		if (resource != null && !inclusionStack.contains(resourceId)) {
 			writeResource(gen, resource, resourceMap, inclusionStack, serializerProvider);
 		}
 		else {
-			gen.writeObject(resourceId);
+			gen.writePOJO(resourceId);
 		}
 	}
 
 	private void writeRelationshipData(JsonGenerator gen, Collection<ResourceIdentifier> resourceIdentifiers,
 			Map<ResourceIdentifier, Resource> resourceMap, Stack<ResourceIdentifier> inclusionStack,
-			SerializerProvider serializerProvider) throws IOException {
+			SerializationContext serializerProvider) throws JacksonException {
 
 		gen.writeStartArray();
 		for (ResourceIdentifier resourceIdentifier : resourceIdentifiers) {
@@ -190,26 +190,26 @@ public class PlainJsonDocumentSerializer extends JsonSerializer<PlainJsonDocumen
 		gen.writeEndArray();
 	}
 
-	private void writeAttributes(JsonGenerator gen, Map<String, JsonNode> attributes, SerializerProvider serializerProvider)
-			throws IOException {
+	private void writeAttributes(JsonGenerator gen, Map<String, JsonNode> attributes, SerializationContext serializerProvider)
+			throws JacksonException {
 		for (Map.Entry<String, JsonNode> entry : attributes.entrySet()) {
 			writeAttribute(gen, entry.getKey(), entry.getValue());
 		}
 	}
 
-	private void writeAttribute(JsonGenerator gen, String key, JsonNode value) throws IOException {
-		gen.writeObjectField(key, value);
+	private void writeAttribute(JsonGenerator gen, String key, JsonNode value) throws JacksonException {
+		gen.writePOJOProperty(key, value);
 	}
 
-	private void writeLinks(JsonGenerator gen, ObjectNode links, SerializerProvider serializerProvider) throws IOException {
+	private void writeLinks(JsonGenerator gen, ObjectNode links, SerializationContext serializerProvider) throws JacksonException {
 		if (links != null && !links.isEmpty(serializerProvider)) {
-			gen.writeObjectField("links", links);
+			gen.writePOJOProperty("links", links);
 		}
 	}
 
-	private void writeMeta(JsonGenerator gen, ObjectNode meta, SerializerProvider serializerProvider) throws IOException {
+	private void writeMeta(JsonGenerator gen, ObjectNode meta, SerializationContext serializerProvider) throws JacksonException {
 		if (meta != null && !meta.isEmpty(serializerProvider)) {
-			gen.writeObjectField("meta", meta);
+			gen.writePOJOProperty("meta", meta);
 		}
 	}
 

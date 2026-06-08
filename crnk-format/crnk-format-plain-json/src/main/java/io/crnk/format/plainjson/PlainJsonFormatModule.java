@@ -1,8 +1,8 @@
 package io.crnk.format.plainjson;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.core.Version;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.module.SimpleModule;
 import io.crnk.core.module.InitializingModule;
 import io.crnk.format.plainjson.internal.PlainJsonDocument;
 import io.crnk.format.plainjson.internal.PlainJsonDocumentDeserializer;
@@ -27,7 +27,6 @@ public class PlainJsonFormatModule implements InitializingModule {
         this.context = context;
         context.addHttpRequestProcessor(
                 new PlainJsonRequestProcessor(context));
-
     }
 
     @Override
@@ -37,6 +36,6 @@ public class PlainJsonFormatModule implements InitializingModule {
         ObjectMapper objectMapper = context.getObjectMapper();
         jacksonModule.addSerializer(new PlainJsonDocumentSerializer());
         jacksonModule.addDeserializer(PlainJsonDocument.class, new PlainJsonDocumentDeserializer(objectMapper));
-        objectMapper.registerModule(jacksonModule);
+        context.addJacksonModule(jacksonModule);
     }
 }

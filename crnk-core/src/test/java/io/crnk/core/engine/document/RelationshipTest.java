@@ -1,9 +1,10 @@
 package io.crnk.core.engine.document;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.NullNode;
-import com.fasterxml.jackson.databind.node.TextNode;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
+import tools.jackson.databind.node.NullNode;
+import tools.jackson.databind.node.StringNode;
 import io.crnk.core.engine.internal.jackson.JacksonModule;
 import io.crnk.core.utils.Nullable;
 import nl.jqno.equalsverifier.EqualsVerifier;
@@ -22,7 +23,7 @@ public class RelationshipTest {
 				.usingGetClass()
 				.suppress(Warning.NONFINAL_FIELDS)
 				// https://github.com/jqno/equalsverifier/issues/486
-				.withPrefabValues(JsonNode.class, NullNode.instance, new TextNode("foo"))
+				.withPrefabValues(JsonNode.class, NullNode.instance, StringNode.valueOf("foo"))
 				.verify();
 	}
 
@@ -63,8 +64,8 @@ public class RelationshipTest {
 
 
 	private void checkSerialize(Relationship relationship) throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(JacksonModule.createJacksonModule());
+		ObjectMapper mapper = JsonMapper.builder().build();
+		mapper = mapper.rebuild().addModule(JacksonModule.createJacksonModule()).build();
 		String json = mapper.writeValueAsString(relationship);
 		Relationship copy = mapper.readerFor(Relationship.class).readValue(json);
 		Assert.assertEquals(relationship, copy);

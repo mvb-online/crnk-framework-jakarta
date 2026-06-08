@@ -2,7 +2,7 @@ package io.crnk.core.module;
 
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
 import io.crnk.core.engine.dispatcher.RequestDispatcher;
 import io.crnk.core.engine.error.ExceptionMapper;
 import io.crnk.core.engine.filter.DocumentFilter;
@@ -128,7 +128,7 @@ public interface Module {
 		 *
 		 * @param module module
 		 */
-		void addJacksonModule(com.fasterxml.jackson.databind.Module module);
+		void addJacksonModule(tools.jackson.databind.JacksonModule module);
 
 		/**
 		 * Adds the given repository for the given type.

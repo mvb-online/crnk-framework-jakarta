@@ -1,6 +1,6 @@
 package io.crnk.core.engine.internal.document.mapper;
 
-import com.fasterxml.jackson.databind.JsonNode;
+import tools.jackson.databind.JsonNode;
 import io.crnk.core.boot.CrnkProperties;
 import io.crnk.core.engine.internal.jackson.JacksonModule;
 import io.crnk.core.engine.properties.PropertiesProvider;
@@ -13,7 +13,7 @@ public class ObjectLinkDocumentMapperTest extends DocumentMapperTest {
 	@Override
 	public void setup() {
 		super.setup();
-		objectMapper.registerModule(JacksonModule.createJacksonModule(true));
+		objectMapper = objectMapper.rebuild().addModule(JacksonModule.createJacksonModule(true)).build();
 	}
 
 	@Override

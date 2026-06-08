@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.client.ResponseBodyException;
 import io.crnk.client.internal.proxy.ClientProxyFactory;
 import io.crnk.core.engine.dispatcher.Response;
@@ -132,7 +132,7 @@ class ClientResourceUpsert extends ResourceUpsert {
     }
 
     @Override
-    protected RuntimeException newBodyException(String message, IOException e) {
+    protected RuntimeException newBodyException(String message, Exception e) {
         throw new ResponseBodyException(message, e);
     }
 

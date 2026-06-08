@@ -4,7 +4,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.document.Resource;
 import io.crnk.core.exception.InternalServerErrorException;
 import io.crnk.core.queryspec.QuerySpec;
@@ -35,7 +36,7 @@ public class DynamicClientTest extends AbstractClientTest {
 	@Test
 	public void testResource() throws IOException {
 		ResourceRepository<Resource, String> repository = client.getRepositoryForPath("dynamic1");
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = JsonMapper.builder().build();
 
 		Resource resource = new Resource();
 		resource.setId("john");
@@ -63,7 +64,7 @@ public class DynamicClientTest extends AbstractClientTest {
 	public void testRelationship() throws IOException {
 		ResourceRepository<Resource, String> resourceRepository = client.getRepositoryForPath("dynamic1");
 		RelationshipRepository<Resource, String, Resource, String> repository = client.getRepositoryForPath("dynamic1", "tasks");
-		ObjectMapper mapper = new ObjectMapper();
+		ObjectMapper mapper = JsonMapper.builder().build();
 
 
 		Resource target = repository.findOneTarget("a", "parent", new QuerySpec("tasks"));

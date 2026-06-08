@@ -1,8 +1,8 @@
 package io.crnk.core.engine.internal.jackson;
 
-import com.fasterxml.jackson.core.Version;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.module.SimpleModule;
+import tools.jackson.core.Version;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.module.SimpleModule;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.module.Module;
 
@@ -26,14 +26,18 @@ public class JacksonModule implements Module {
 
 	@Override
 	public void setupModule(ModuleContext context) {
-		objectMapper.registerModule(createJacksonModule(serializeLinksAsObjects));
+		// In Jackson 3, ObjectMapper is immutable. Register module via rebuild.
+		SimpleModule jacksonModule = createJacksonModule(serializeLinksAsObjects);
+		// Note: The ObjectMapper will need to be rebuilt with this module by the caller
+		// For now, store it so ModuleRegistry can add it during init
+		context.addJacksonModule(jacksonModule);
 	}
 
 
 	/**
 	 * Creates Crnk Jackson module with all required serializers
 	 *
-	 * @return {@link com.fasterxml.jackson.databind.Module} with custom serializers
+	 * @return {@link tools.jackson.databind.JacksonModule} with custom serializers
 	 */
 	public static SimpleModule createJacksonModule() {
 		return createJacksonModule(false);
@@ -45,7 +49,7 @@ public class JacksonModule implements Module {
 	 *
 	 * @param serializeLinksAsObjects flag which decides whether the {@link LinksInformationSerializer} should be added as
 	 *                                additional serializer or not.
-	 * @return {@link com.fasterxml.jackson.databind.Module} with custom serializers
+	 * @return {@link tools.jackson.databind.JacksonModule} with custom serializers
 	 */
 	public static SimpleModule createJacksonModule(boolean serializeLinksAsObjects) {
 		SimpleModule simpleModule = new SimpleModule(JSON_API_JACKSON_MODULE_NAME,

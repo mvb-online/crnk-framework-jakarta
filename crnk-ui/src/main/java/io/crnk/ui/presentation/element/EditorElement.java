@@ -1,6 +1,6 @@
 package io.crnk.ui.presentation.element;
 
-import com.fasterxml.jackson.databind.node.ObjectNode;
+import tools.jackson.databind.node.ObjectNode;
 import io.crnk.core.engine.internal.utils.ClassUtils;
 import io.crnk.core.resource.annotations.JsonApiResource;
 import io.crnk.data.facet.annotation.Facet;

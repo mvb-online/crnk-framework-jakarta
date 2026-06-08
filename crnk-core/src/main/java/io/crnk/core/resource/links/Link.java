@@ -1,6 +1,6 @@
 package io.crnk.core.resource.links;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import tools.jackson.databind.annotation.JsonDeserialize;
 
 @JsonDeserialize(as = DefaultLink.class)
 public interface Link {

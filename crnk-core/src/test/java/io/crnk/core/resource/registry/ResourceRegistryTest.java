@@ -4,7 +4,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.Assert.assertNotNull;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.information.resource.ResourceInformationProviderModule;
 import io.crnk.core.engine.internal.CoreModule;
 import io.crnk.core.engine.internal.registry.ResourceRegistryImpl;
@@ -46,7 +47,7 @@ public class ResourceRegistryTest {
 		moduleRegistry.addModule(new CoreModule());
 		moduleRegistry.addModule(new ResourceInformationProviderModule());
 		moduleRegistry.getHttpRequestContextProvider().setServiceUrlProvider(new ConstantServiceUrlProvider(TEST_MODELS_URL));
-		moduleRegistry.setObjectMapper(new ObjectMapper());
+		moduleRegistry.setObjectMapper(JsonMapper.builder().build());
 		resourceRegistry = new ResourceRegistryImpl(new DefaultResourceRegistryPart(), moduleRegistry);
 	}
 

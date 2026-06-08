@@ -2,7 +2,8 @@ package io.crnk.core.engine.error;
 
 import java.io.IOException;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.document.ErrorData;
 import io.crnk.core.engine.document.ErrorDataBuilder;
 import io.crnk.core.engine.internal.document.mapper.DocumentMapperUtil;
@@ -30,8 +31,8 @@ public class ErrorDataTest {
 
 	@Test
 	public void testSerialization() throws IOException {
-		ObjectMapper mapper = new ObjectMapper();
-		mapper.registerModule(JacksonModule.createJacksonModule());
+		ObjectMapper mapper = JsonMapper.builder().build();
+		mapper = mapper.rebuild().addModule(JacksonModule.createJacksonModule()).build();
 
 		ErrorDataBuilder builder = new ErrorDataBuilder();
 		builder.setAboutLink("about");

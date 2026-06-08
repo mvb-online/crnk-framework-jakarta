@@ -1,7 +1,7 @@
 package io.crnk.meta.integration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.SerializationFeature;
 import io.crnk.client.CrnkClient;
 import io.crnk.client.http.okhttp.OkHttpAdapter;
 import io.crnk.client.http.okhttp.OkHttpAdapterListenerBase;
@@ -18,6 +18,8 @@ import org.junit.Before;
 
 import jakarta.ws.rs.ApplicationPath;
 import jakarta.ws.rs.core.Application;
+import tools.jackson.databind.json.JsonMapper;
+
 import java.util.concurrent.TimeUnit;
 
 public abstract class AbstractMetaJerseyTest extends JerseyTestBase {
@@ -61,8 +63,10 @@ public abstract class AbstractMetaJerseyTest extends JerseyTestBase {
 
         public TestApplication() {
             CrnkFeature feature = new CrnkFeature();
-            ObjectMapper objectMapper = feature.getObjectMapper();
-            objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+            ObjectMapper objectMapper = JsonMapper.builder()
+                    .enable(SerializationFeature.INDENT_OUTPUT)
+                    .build();
+            feature.getBoot().setObjectMapper(objectMapper);
             feature.addModule(createModule());
             feature.addModule(new TestModule());
             boot = feature.getBoot();

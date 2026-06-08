@@ -1,6 +1,7 @@
 package io.crnk.core.queryspec.pagingspec;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.databind.ObjectMapper;
+import tools.jackson.databind.json.JsonMapper;
 import io.crnk.core.engine.dispatcher.RepositoryRequestSpec;
 import io.crnk.core.engine.information.resource.ResourceFieldType;
 import io.crnk.core.engine.information.resource.ResourceInformation;
@@ -48,7 +49,7 @@ public class PagingSpecUrlBuilderTest {
         moduleRegistry = new ModuleRegistry();
         moduleRegistry.setUrlMapper(new DefaultQuerySpecUrlMapper());
         moduleRegistry.setResourceRegistry(resourceRegistry);
-        moduleRegistry.init(new ObjectMapper());
+        moduleRegistry.init(JsonMapper.builder().build());
     }
 
     @Test
