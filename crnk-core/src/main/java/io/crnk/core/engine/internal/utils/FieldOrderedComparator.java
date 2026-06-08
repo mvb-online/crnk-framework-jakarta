@@ -30,15 +30,24 @@ public class FieldOrderedComparator implements Comparator<ResourceField> {
 
 	@Override
 	public int compare(ResourceField o1, ResourceField o2) {
-		if (fieldNames.containsKey(o1.getJsonName())) {
-			if (fieldNames.containsKey(o2.getJsonName())) {
-				return fieldNames.get(o1.getJsonName()) - fieldNames.get(o2.getJsonName());
+		// null objects go last
+		if (o1 == null && o2 == null) return 0;
+		if (o1 == null) return 1;
+		if (o2 == null) return -1;
+		final String name1 = o1.getJsonName();
+		final String name2 = o2.getJsonName();
+		// compare(x, x) must return 0
+		if (name1.equals(name2)) return 0;
+
+		if (fieldNames.containsKey(name1)) {
+			if (fieldNames.containsKey(name2)) {
+				return fieldNames.get(name1) - fieldNames.get(name2);
 			} else {
 				return -1;
 			}
 		} else {
 			if (alphabetic) {
-				return o1.getJsonName().compareToIgnoreCase(o2.getJsonName());
+				return name1.compareToIgnoreCase(name2);
 			} else {
 				return 1;
 			}
